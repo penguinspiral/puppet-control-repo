@@ -1,0 +1,18 @@
+---
+version: 5
+defaults:
+  datadir: data
+  data_hash: yaml_data
+
+hierarchy:
+  - name: "Node-specific data"
+    path: "fqdn/%{facts.fqdn}.yaml"
+
+  - name: "Role data"
+    path: "roles/%{facts.role}.yaml"
+
+  - name: "Site data"
+    path: "sites/%{facts.site}.yaml"
+
+  - name: "Common data"
+    path: "common.yaml"
