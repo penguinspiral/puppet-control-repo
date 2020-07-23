@@ -1,0 +1,11 @@
+[Unit]
+Description=Puppet Master service
+
+[Service]
+ExecStartPre=/usr/bin/r10k deploy environment --puppetfile --verbose --config /etc/puppet/r10k.yaml
+ExecStart=/usr/bin/puppet apply --detailed-exitcodes --verbose /etc/puppet/code/environments/production/manifests/site.pp
+# '0': Success & no changes, '2': Success & changes
+SuccessExitStatus=0 2
+
+[Install]
+WantedBy=multi-user.target

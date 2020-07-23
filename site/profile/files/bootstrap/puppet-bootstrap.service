@@ -1,0 +1,13 @@
+[Unit]
+Description=Puppet Master bootstrap
+ConditionPathExists=!/etc/systemd/system/puppet-master.service
+ConditionPathExists=!/etc/systemd/system/puppet-master.timer
+
+[Service]
+ExecStartPre=/usr/bin/r10k deploy environment --puppetfile --verbose --config /etc/puppet/r10k.yaml
+ExecStart=/usr/bin/puppet apply --detailed-exitcodes --verbose /etc/puppet/code/environments/production/manifests/site.pp
+# '0': Success & no changes, '2': Success & changes
+SuccessExitStatus=0 2
+
+[Install]
+WantedBy=multi-user.target

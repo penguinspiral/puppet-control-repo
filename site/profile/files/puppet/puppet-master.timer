@@ -1,0 +1,8 @@
+[Unit]
+Description=Run Puppet master every 30 minutes
+
+[Timer]
+OnActiveSec=30min
+
+[Install]
+WantedBy=timers.target

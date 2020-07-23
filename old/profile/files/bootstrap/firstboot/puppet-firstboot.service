@@ -1,0 +1,11 @@
+[Unit]
+Description=Puppet Bootstrap first boot preparation
+ConditionPathExists=!/etc/systemd/system/puppet-master.service
+ConditionPathExists=!/etc/systemd/system/puppet-master.timer
+
+[Service]
+# ExecPreStart=/usr/bin/r10k deploy environment --puppetfile --verbose --config /etc/puppet/r10k.yaml
+ExecStart=/usr/bin/puppet apply --verbose
+
+[Install]
+WantedBy=multi-user.target

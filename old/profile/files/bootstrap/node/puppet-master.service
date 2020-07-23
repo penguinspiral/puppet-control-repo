@@ -1,0 +1,9 @@
+[Unit]
+Description=Puppet Bootstrap Service
+
+[Service]
+ExecPreStart=/usr/bin/r10k deploy environment --puppetfile --verbose --config /etc/puppet/r10k.yaml
+ExecStart=/usr/bin/puppet apply
+
+[Install]
+WantedBy=multi-user.target
