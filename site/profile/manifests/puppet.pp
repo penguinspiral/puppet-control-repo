@@ -4,21 +4,16 @@
 #   1. Define 'puppet-master' systemd service unit file
 #   2. Define 'puppet-master' systemd timer unit file
 #
-class profile::puppet {
+class profile::puppet() {
 
   include systemd
 
-  systemd::unit_file {
-    default:
-      enable => true,
-    ;
-    'puppet-master.service':
-      source => "puppet:///modules/${module_name}/puppet/puppet-master.service",
-    ;
-    'puppet-master.timer':
-      source => "puppet:///modules/${module_name}/puppet/puppet-master.timer",
-      active => true,
+  # Create service & timer unit file pair
+  systemd::timer { 'puppet-master.timer':
+    timer_source   => "puppet:///modules/${module_name}/puppet/puppet-master.timer",
+    service_source => "puppet:///modules/${module_name}/puppet/puppet-master.service",
+    active         => true,
+    enable         => true,
   }
 
 }
-

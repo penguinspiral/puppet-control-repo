@@ -1,0 +1,7 @@
+---
+classes:
+#  - profile::puppet
+  - profile::disk
+  - profile::apt
+  - profile::webserver::apache
+#  - role::seed

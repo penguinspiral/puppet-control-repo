@@ -1,4 +1,10 @@
-class role::seed() {
-  # WONT BOOTSTRAP BE PRESENT FOR ALL NODES?! DO WE WANT TO RUN IT ONCE AT END OF PRESEEED?!
+class role::seed {
   include profile::puppet
+  include profile::disk
+  include profile::apt
+  include profile::webserver::apache
+
+  # Class['profile::disk']
+  # -> Class['profile::apt']
+  # -> Class['profile::webserver::apache']
 }

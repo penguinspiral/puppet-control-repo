@@ -1,3 +1,47 @@
 ---
-classes:
-  - role::seed
+profile::bootstrap::seed: true
+
+# profile::disk::fs:
+#   '/dev/disk/by-id/scsi-0QEMU_QEMU_HARDDISK_drive-scsi0-0-0-1':
+#     ensure: present
+#     fs_type: btrfs
+#     options: |
+#       --uuid 3aa4ffe4-fd06-44c5-b8ab-55f79d0ea16b
+#       --label data
+
+profile::disk::cdrom_uuid: '2020-09-04-08-53-54-00'
+profile::disk::mountpoints:
+#   '/dev/disk/by-uuid/3aa4ffe4-fd06-44c5-b8ab-55f79d0ea16b':
+#     path: '/mnt/data'
+  "/dev/disk/by-uuid/%{lookup('profile::disk::cdrom_uuid')":
+    path: '/media/cdrom'
+
+profile::disk::mounts:
+#   '/dev/disk/by-uuid/3aa4ffe4-fd06-44c5-b8ab-55f79d0ea16b':
+#     name: '/mnt/data'
+#     device: 'UUID=3aa4ffe4-fd06-44c5-b8ab-55f79d0ea16b'
+#     ensure: mounted
+#     fstype: 'btrfs'
+#     atboot: true
+  "/dev/disk/by-uuid/%{lookup('profile::disk::cdrom_uuid')}":
+    name: '/media/cdrom'
+    device: "UUID=%{lookup('profile::disk::cdrom_uuid')}"
+    ensure: mounted
+    fstype: 'iso9660'
+    options: 'ro'
+    atboot: true
+
+profile::apt::purge:
+  'sources.list': true
+  'sources.list.d': true
+  'preferences.list': true
+  'preferences.list.d': true
+  
+profile::apt::sources:
+  'debian_buster_local':
+    comment: 'Complete, static, local Debian buster (10.0) mirror'
+    location: 'file:/media/cdrom/mirror/'
+    repos: 'main contrib non-free'
+
+profile::apt::update:
+  'frequency': 'always'
