@@ -1,10 +1,11 @@
 # profiles
 
-Welcome to your new module. A short overview of the generated parts can be found
-in the [PDK documentation][1].
+Part of the Puppet best-practice "Roles & Profiles" design pattern for
+providing an interface between "business logic" and reusable Puppet modules.
 
-The README template below provides a starting point with details about what
-information to include in your README.
+The 'profiles' module contains the "business logic" instructing the usage of
+application/component modules for composing the environment. Classes contained
+within this module are site-specific, reusable groupings of Puppet modules.
 
 ## Table of Contents
 
@@ -19,99 +20,90 @@ information to include in your README.
 
 ## Description
 
-Briefly tell users why they might want to use your module. Explain what your
-module does and what kind of problems users can solve with it.
+This module contains "business logic" in addition to consuming site-specific default
+values, as a result it is **not** suitable for external consumption. Unlike
+application/component modules this Puppet module does not need to be reusable
+across deployments - it specifies the deployment!
 
-This should be a fairly short description helps the user decide if your module
-is what they want.
+### Usage
+
+Classes specified within this module serve as discrete, reusable components that
+are referenced in Hiera (`data/roles/$role.yaml`) for comprising a given "role".
+This Hiera-defined "role" lookup differs from the typical implementation of the
+`roles` module explicitly "including" the `profiles` classes.
+
+To facilitate a Hiera-defined "role" lookup the environment's `manifests/site.pp`
+performs a Puppet `lookup()` call which generates a unique array of `profiles`
+classes.
 
 ## Setup
 
-### What profiles affects **OPTIONAL**
+### What profiles affects
 
-If it's obvious what your module touches, you can skip this section. For
-example, folks can probably figure out that your mysql_instance module affects
-their MySQL instances.
+The nature of the `profiles` module means that all hosts managed with Puppet are
+affected. Refer to environment specific `data/roles/$role.yaml` for determining
+which `profiles` classes are applied for a given `role`.
 
-If there's more that they should know about, though, this is the place to
-mention:
+A common set of `profiles` classes are incorporated by _all_ `roles` (e.g.
+`profiles::ssh`), however these standalone `profiles` classes have been kept
+distinct so as to avoid a monolithic "base" `profile`.
 
-* Files, packages, services, or operations that the module will alter, impact,
-  or execute.
-* Dependencies that your module automatically installs.
-* Warnings or other important notices.
+### Setup Requirements
 
-### Setup Requirements **OPTIONAL**
+Given its site-specific ties the `profiles` module is entirely reliant upon a
+Debian GNU/Linux 10.0 "Buster" environment deployed as part of the
+[penguinspiral/seed-installer](https://github.com/penguinspiral/seed-installer).
 
-If your module requires anything extra before setting up (pluginsync enabled,
-another module, etc.), mention it here.
-
-If your most recent release breaks compatibility or requires particular steps
-for upgrading, you might want to include an additional "Upgrading" section here.
+All `profiles` module's classes are designed to work with the Debian GNU/Linux
+distribution. Other operating system distributions are, as per the `profiles`
+module's `metadata.json`, explicitly not supported.
 
 ### Beginning with profiles
 
-The very basic steps needed for a user to get the module up and running. This
-can include setup steps, if necessary, or it can be an example of the most basic
-use of the module.
+As per the Puppet best practice "Roles & Profiles" pattern a "role" consists of
+one or more "profiles". Consumption of `profiles` classes are done via
+Hiera-defined "role" lookups in discrete, standalone `data/role/$role.yaml` data
+files.
 
 ## Usage
 
-Include usage examples for common use cases in the **Usage** section. Show your
-users how to use your module to solve problems, and be sure to include code
-examples. Include three to five examples of the most important or common tasks a
-user can accomplish with your module. Show users how to accomplish more complex
-tasks that involve different types, classes, and functions working in tandem.
+Classes contained within the `profiles` module are intended to be consumed by
+means of Hiera-defined "role" lookups. "Metaprofiles" serve as the exception in
+which related `profiles` sub-classes are explicitly listed in Puppet manifests.
 
-## Reference
+### Use cases
 
-This section is deprecated. Instead, add reference information to your code as
-Puppet Strings comments, and then use Strings to generate a REFERENCE.md in your
-module. For details on how to add code comments and generate documentation with
-Strings, see the [Puppet Strings documentation][2] and [style guide][3].
-
-If you aren't ready to use Strings yet, manually create a REFERENCE.md in the
-root of your module directory and list out each of your module's classes,
-defined types, facts, functions, Puppet tasks, task plans, and resource types
-and providers, along with the parameters for each.
-
-For each element (class, defined type, function, and so on), list:
-
-* The data type, if applicable.
-* A description of what the element does.
-* Valid values, if the data type doesn't make it obvious.
-* Default value, if any.
-
-For example:
-
+FTP server:
 ```
-### `pet::cat`
+# data/roles/fileserver.yaml
 
-#### Parameters
-
-##### `meow`
-
-Enables vocalization in your cat. Valid options: 'string'.
-
-Default: 'medium-loud'.
+classes:
+  - profile::network
+  - profile::apt
+  - profile::ssh
+  - profile::ftp::server
 ```
 
-## Limitations
+DHCP server:
+```
+# data/roles/router.yaml
 
-In the Limitations section, list any incompatibilities, known issues, or other
-warnings.
+classes:
+  - profile::network
+  - profile::apt
+  - profile::ssh
+  - profile::dhcp::server
+  - profile::dns::server
+```
 
-## Development
+PXE server:
+```
+# data/roles/pxe.yaml
 
-In the Development section, tell other users the ground rules for contributing
-to your project and how they should submit their work.
-
-## Release Notes/Contributors/Etc. **Optional**
-
-If you aren't using changelog, put your release notes here (though you should
-consider using changelog). You can also add any additional sections you feel are
-necessary or important to include here. Please use the `##` header.
-
-[1]: https://puppet.com/docs/pdk/latest/pdk_generating_modules.html
-[2]: https://puppet.com/docs/puppet/latest/puppet_strings.html
-[3]: https://puppet.com/docs/puppet/latest/puppet_strings_style.html
+classes:
+  - profile::network
+  - profile::apt
+  - profile::ssh
+  - profile::dhcp::server
+  - profile::tftp::server
+```
