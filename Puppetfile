@@ -1,0 +1,18 @@
+#
+# Supported
+#
+
+
+#
+# Approved
+#
+
+
+#
+# Partner
+#
+
+
+#
+# Community
+#
