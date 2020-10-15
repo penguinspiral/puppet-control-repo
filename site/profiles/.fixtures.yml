@@ -1,0 +1,14 @@
+# This file can be used to install module dependencies for unit testing
+# See https://github.com/puppetlabs/puppetlabs_spec_helper#using-fixtures for details
+---
+fixtures:
+  forge_modules:
+    ini_setting:
+      repo: "puppetlabs-inifile"
+      ref:  "4.3.0"
+    stdlib:
+      repo: "puppetlabs-stdlib"
+      ref:  "6.5.0"
+    translate:
+      repo: "puppetlabs-translate"
+      ref:  "2.2.0"
