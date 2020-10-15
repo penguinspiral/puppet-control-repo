@@ -7,7 +7,14 @@
   "source": "https://github.com/penguinspiral/puppet-control-repo",
   "issues_url": "https://github.com/penguinspiral/puppet-control-repo/issues",
   "dependencies": [
-
+    {
+      "name": "puppetlabs/inifile",
+      "version_requirement": "4.3.0"
+    },
+    {
+      "name": "puppetlabs/stdlib",
+      "version_requirement": "6.5.0"
+    }
   ],
   "operatingsystem_support": [
     {
