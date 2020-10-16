@@ -1,2 +1,14 @@
 ---
+profiles::apt::purge:
+  'sources.list': true
+  'sources.list.d': true
+  'preferences.list': true
+  'preferences.list.d': true
+
+profiles::apt::sources:
+  'debian_buster_local':
+    comment: 'Complete, static, local Debian buster (10.0) mirror'
+    location: 'file:/media/cdrom/mirror/'
+    repos: 'main contrib non-free'
+
 profiles::bootstrap::seed: true
