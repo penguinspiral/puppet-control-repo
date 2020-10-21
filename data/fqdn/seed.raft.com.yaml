@@ -1,2 +1,2 @@
 ---
-profile::bootstrap::seed: true
+profiles::bootstrap::seed: true
