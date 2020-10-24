@@ -17,6 +17,8 @@ Configures the Puppet agent to run at startup via systemd
 Binds the Puppet master daemon to localhost for isolated catalog generation
 * [`profiles::bootstrap::seed`](#profilesbootstrapseed): Unique, singular "seed" node configuration
 Manually specifies the static "seed" role fact
+* [`profiles::network`](#profilesnetwork): Manages the node's network interface(s), static route(s), rule(s)
+Leverages the '/etc/network/interfaces' consumed by `ifup/ifdown`
 
 ## Classes
 
@@ -121,4 +123,29 @@ Manually specifies the static "seed" role fact
 ```puppet
 include profiles::bootstrap
 ```
+
+### `profiles::network`
+
+Manages the node's network interface(s), static route(s), rule(s)
+Leverages the '/etc/network/interfaces' consumed by `ifup/ifdown`
+
+#### Examples
+
+##### 
+
+```puppet
+include profiles::network
+```
+
+#### Parameters
+
+The following parameters are available in the `profiles::network` class.
+
+##### `interfaces`
+
+Data type: `Hash`
+
+Specifies the network interface(s) to manage
+
+Default value: `{}`
 
