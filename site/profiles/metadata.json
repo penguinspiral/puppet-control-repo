@@ -8,6 +8,10 @@
   "issues_url": "https://github.com/penguinspiral/puppet-control-repo/issues",
   "dependencies": [
     {
+      "name": "puppetlabs/concat",
+      "version_requirement": "6.2.0"
+    },
+    {
       "name": "puppetlabs/inifile",
       "version_requirement": "4.3.0"
     },
@@ -18,6 +22,10 @@
     {
       "name": "puppetlabs/translate",
       "version_requirement": "2.2.0"
+    },
+    {
+      "name": "example42/network",
+      "version_requirement": "3.5.3",
     }
   ],
   "operatingsystem_support": [
