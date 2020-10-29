@@ -12,6 +12,14 @@
       "version_requirement": "4.3.0"
     },
     {
+      "name": "puppetlabs/lvm",
+      "version_requirement": "1.4.0"
+    },
+    {
+      "name": "puppetlabs/mount_core",
+      "version_requirement": "1.0.4"
+    },
+    {
       "name": "puppetlabs/stdlib",
       "version_requirement": "6.5.0"
     },
