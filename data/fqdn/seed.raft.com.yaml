@@ -1,2 +1,11 @@
 ---
 profiles::bootstrap::seed: true
+
+profiles::disk::mounts:
+  '/dev/disk/by-uuid/2020-10-21-10-31-14-00':
+    name: '/media/cdrom'
+    device: 'UUID=2020-10-21-10-31-14-00'
+    ensure: mounted
+    fstype: 'iso9660'
+    options: 'ro'
+    atboot: true
