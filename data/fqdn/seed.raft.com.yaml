@@ -7,5 +7,5 @@ profiles::disk::mounts:
     device: 'UUID=2020-10-21-10-31-14-00'
     ensure: mounted
     fstype: 'iso9660'
-    options: 'ro'
+    options: 'ro,x-mount.mkdir'
     atboot: true
