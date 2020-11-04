@@ -6,6 +6,12 @@ fixtures:
     ini_setting:
       repo: "puppetlabs-inifile"
       ref:  "4.3.0"
+    lvm:
+      repo: "puppetlabs-lvm"
+      ref:  "1.4.0"
+    mount_core:
+      repo: "puppetlabs-mount_core"
+      ref:  "1.0.4"
     stdlib:
       repo: "puppetlabs-stdlib"
       ref:  "6.5.0"
