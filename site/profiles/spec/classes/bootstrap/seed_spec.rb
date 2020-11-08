@@ -17,11 +17,16 @@ describe 'profiles::bootstrap::seed', type: :class do
   }
 
   context 'when default' do
+    it { is_expected.to contain_class('apt') }
+    it {
+      is_expected.to contain_exec('apt_update').with(
+        command: '/usr/bin/apt-get update',
+      )
+    }
     facter_dirs.each do |dir|
       it { is_expected.to contain_file(dir).with(facter_dirs_attr) }
     end
     it { is_expected.to contain_file(facter_bootstrap_conf[:path]).with(facter_bootstrap_conf) }
-    it { is_expected.to have_file_resource_count(3) }
     it { is_expected.to compile }
   end
 end

@@ -7,6 +7,8 @@
 #
 class profiles::bootstrap::seed() {
 
+  include profiles::apt
+
   file {
     default:
       owner => 'root',

@@ -3,9 +3,24 @@
 ---
 fixtures:
   forge_modules:
+    apt:
+      repo: "puppetlabs-apt"
+      ref:  "7.6.0"
+    concat:
+      repo: "puppetlabs-concat"
+      ref:  "6.2.0"
     ini_setting:
       repo: "puppetlabs-inifile"
       ref:  "4.3.0"
+    network:
+      repo: "example42-network"
+      ref:  "3.5.3"
+    lvm:
+      repo: "puppetlabs-lvm"
+      ref:  "1.4.0"
+    mount_core:
+      repo: "puppetlabs-mount_core"
+      ref:  "1.0.4"
     stdlib:
       repo: "puppetlabs-stdlib"
       ref:  "6.5.0"

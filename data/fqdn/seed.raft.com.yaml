@@ -1,2 +1,33 @@
 ---
+profiles::apt::purge:
+  'sources.list': true
+  'sources.list.d': true
+  'preferences.list': true
+  'preferences.list.d': true
+
+profiles::apt::sources:
+  'debian_buster_local':
+    comment: 'Complete, static, local Debian buster (10.0) mirror'
+    location: 'file:/media/cdrom/mirror/'
+    repos: 'main contrib non-free'
+
 profiles::bootstrap::seed: true
+
+profiles::disk::mounts:
+  '/dev/disk/by-uuid/2020-10-21-10-31-14-00':
+    name: '/media/cdrom'
+    device: 'UUID=2020-10-21-10-31-14-00'
+    ensure: mounted
+    fstype: 'iso9660'
+    options: 'ro,x-mount.mkdir'
+    atboot: true
+
+profiles::network::interfaces:
+  'eno1':
+    ipaddress:       '192.168.0.2'
+    netmask:         '255.255.0.0'
+    gateway:         '192.168.0.1'
+    dns_nameservers: '192.168.0.2 8.8.8.8 1.1.1.1'
+    dns_search:      'raft.com'
+    enable_dhcp:     false
+    restart_all_nic: false
