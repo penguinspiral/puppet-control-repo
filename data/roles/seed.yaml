@@ -2,3 +2,4 @@
 classes:
   - profiles::bootstrap
   - profiles::network
+  - profiles::disk

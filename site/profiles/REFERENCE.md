@@ -17,6 +17,8 @@ Configures the Puppet agent to run at startup via systemd
 Binds the Puppet master daemon to localhost for isolated catalog generation
 * [`profiles::bootstrap::seed`](#profilesbootstrapseed): Unique, singular "seed" node configuration
 Manually specifies the static "seed" role fact
+* [`profiles::disk`](#profilesdisk): Manages the node's "external" block devices (i.e. non-root)
+Performs filesystem creation and manages mount behaviours
 * [`profiles::network`](#profilesnetwork): Manages the node's network interface(s), static route(s), rule(s)
 Leverages the '/etc/network/interfaces' consumed by `ifup/ifdown`
 
@@ -123,6 +125,43 @@ Manually specifies the static "seed" role fact
 ```puppet
 include profiles::bootstrap
 ```
+
+### `profiles::disk`
+
+Manages the node's "external" block devices (i.e. non-root)
+Performs filesystem creation and manages mount behaviours
+
+#### Examples
+
+##### 
+
+```puppet
+include profiles::disk
+```
+
+#### Parameters
+
+The following parameters are available in the `profiles::disk` class.
+
+##### `filesystems`
+
+Data type: `Hash`
+
+Format target block device(s) with specified filesystem
+Arbritrary filesystem options during initial creation/format can be specified
+Wrapper parameter: 'puppetlabs-lvm' module filesystem custom "type"
+Title: udev disk by-id value (recommended)
+
+Default value: `{}`
+
+##### `mounts`
+
+Data type: `Hash`
+
+Mount options of the target block device(s)
+Title: udev disk by-uuid (filesystem)
+
+Default value: `{}`
 
 ### `profiles::network`
 
