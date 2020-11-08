@@ -6,6 +6,9 @@
 
 ### Classes
 
+* [`profiles::apt`](#profilesapt): Manages Debian's Advanced Package Tool (APT) configuration/behaviour
+Responsible for repository sources, package pins, repository GPG keys, etc
+Predominantly a wrapper around the 'puppetlabs-apt' Forge module
 * [`profiles::bootstrap`](#profilesbootstrap): Performs minimal alteration required for a full Puppet run at first boot
 This profile operates within a "limited" Debian Preseed chrooted environment
 Consequently extending this profile and its subclasses is discouraged
@@ -23,6 +26,42 @@ Performs filesystem creation and manages mount behaviours
 Leverages the '/etc/network/interfaces' consumed by `ifup/ifdown`
 
 ## Classes
+
+### `profiles::apt`
+
+Manages Debian's Advanced Package Tool (APT) configuration/behaviour
+Responsible for repository sources, package pins, repository GPG keys, etc
+Predominantly a wrapper around the 'puppetlabs-apt' Forge module
+
+#### Examples
+
+##### 
+
+```puppet
+include profiles::apt
+```
+
+#### Parameters
+
+The following parameters are available in the `profiles::apt` class.
+
+##### `purge`
+
+Data type: `Hash`
+
+Specify APT repository configuration file(s) to empty contents
+Wrapper parameter: 'puppetlabs-apt' module class parameter
+
+Default value: `{}`
+
+##### `sources`
+
+Data type: `Hash`
+
+Specify APT respository URI and corresponding settings (e.g. repos)
+Wrapper parameter: 'puppetlabs-apt' module class parameter
+
+Default value: `{}`
 
 ### `profiles::bootstrap`
 

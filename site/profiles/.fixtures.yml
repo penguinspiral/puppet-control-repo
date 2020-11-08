@@ -3,6 +3,9 @@
 ---
 fixtures:
   forge_modules:
+    apt:
+      repo: "puppetlabs-apt"
+      ref:  "7.6.0"
     concat:
       repo: "puppetlabs-concat"
       ref:  "6.2.0"

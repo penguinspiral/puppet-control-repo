@@ -9,3 +9,7 @@ is_pe: false
 macaddress: "AA:AA:AA:AA:AA:AA"
 operatingsystem: "Debian"
 osfamily: "Debian"
+os:
+  name: 'Debian'
+  release:
+    major: '10'

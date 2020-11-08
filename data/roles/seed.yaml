@@ -3,3 +3,4 @@ classes:
   - profiles::bootstrap
   - profiles::network
   - profiles::disk
+  - profiles::apt
