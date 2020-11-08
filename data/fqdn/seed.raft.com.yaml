@@ -1,2 +1,12 @@
 ---
 profiles::bootstrap::seed: true
+
+profiles::network::interfaces:
+  'eno1':
+    ipaddress:       '192.168.0.2'
+    netmask:         '255.255.0.0'
+    gateway:         '192.168.0.1'
+    dns_nameservers: '192.168.0.2 8.8.8.8 1.1.1.1'
+    dns_search:      'raft.com'
+    enable_dhcp:     false
+    restart_all_nic: false
