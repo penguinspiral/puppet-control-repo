@@ -13,6 +13,26 @@ profiles::apt::sources:
 
 profiles::bootstrap::seed: true
 
+profiles::dhcp::service_ensure: 'running'
+profiles::dhcp::interfaces:
+  - "%{facts.networking.primary}"
+profiles::dhcp::dnsdomain:
+  - 'raft.com'
+profiles::dhcp::nameservers:
+  - '1.1.1.1'
+  - '8.8.4.4'
+profiles::dhcp::ntpservers:
+  - '0.us.pool.ntp.org'
+  - '1.us.pool.ntp.org'
+  - '2.us.pool.ntp.org'
+profiles::dhcp::pools:
+  'raft.com':
+     network: '192.168.0.0'
+     mask:    '255.255.0.0'
+     gateway: '192.168.0.1'
+     range:
+       - '192.168.0.2 192.168.0.254'
+
 profiles::disk::mounts:
   '/dev/disk/by-uuid/2020-10-21-10-31-14-00':
     name: '/media/cdrom'
