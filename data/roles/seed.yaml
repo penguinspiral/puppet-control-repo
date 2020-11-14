@@ -4,3 +4,4 @@ classes:
   - profiles::network
   - profiles::disk
   - profiles::apt
+  - profiles::dhcp
