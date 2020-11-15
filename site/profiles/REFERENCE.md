@@ -20,6 +20,9 @@ Configures the Puppet agent to run at startup via systemd
 Binds the Puppet master daemon to localhost for isolated catalog generation
 * [`profiles::bootstrap::seed`](#profilesbootstrapseed): Unique, singular "seed" node configuration
 Manually specifies the static "seed" role fact
+* [`profiles::dhcp`](#profilesdhcp): Manages isc-dhcp-server configuration/behaviour
+Responsible for subnet allocation, host reservations, (i)PXE URIs, etc
+Predominantly a wrapper around the 'puppet-dhcp' Forge module
 * [`profiles::disk`](#profilesdisk): Manages the node's "external" block devices (i.e. non-root)
 Performs filesystem creation and manages mount behaviours
 * [`profiles::network`](#profilesnetwork): Manages the node's network interface(s), static route(s), rule(s)
@@ -164,6 +167,93 @@ Manually specifies the static "seed" role fact
 ```puppet
 include profiles::bootstrap
 ```
+
+### `profiles::dhcp`
+
+Manages isc-dhcp-server configuration/behaviour
+Responsible for subnet allocation, host reservations, (i)PXE URIs, etc
+Predominantly a wrapper around the 'puppet-dhcp' Forge module
+
+* **See also**
+  * https://tools.ietf.org/html/rfc2132
+    * https://tools.ietf.org/html/rfc3397
+
+#### Examples
+
+##### 
+
+```puppet
+include profiles::dhcp
+```
+
+#### Parameters
+
+The following parameters are available in the `profiles::dhcp` class.
+
+##### `service_ensure`
+
+Data type: `Stdlib::Ensure::Service`
+
+Specify whether the isc-dhcp-server service state
+Wrapper parameter: 'puppet-dhcp' module class parameter
+
+Default value: `'stopped'`
+
+##### `interfaces`
+
+Data type: `Array[String[1]]`
+
+Specify interface(s) for isc-dhcp-server to listen on (UDP/67)
+Wrapper parameter: 'puppet-dhcp' module class parameter
+
+Default value: `[]`
+
+##### `dnsdomain`
+
+Data type: `Array[String[1]]`
+
+Specify "global" DNS domains (Option 15)
+First DNS domain element is assigned the 'domain-name' option
+Subsequent DNS domain element(s) are utilised with DDNS zones
+Wrapper parameter: 'puppet-dhcp' module class parameter
+
+Default value: `[]`
+
+##### `nameservers`
+
+Data type: `Array[Stdlib::IP::Address::V4]`
+
+Specify "global" DNS nameserver(s) (Option 6)
+Wrapper parameter: 'puppet-dhcp' module class parameter
+
+Default value: `[]`
+
+##### `dnssearchdomains`
+
+Data type: `Array[String[1]]`
+
+Specify "global" DNS "search" domains (Option 119)
+Wrapper parameter: 'puppet-dhcp' module class parameter
+
+Default value: `[]`
+
+##### `ntpservers`
+
+Data type: `Array[Variant[Stdlib::Fqdn,Stdlib::IP::Address]]`
+
+Specify Network Time Protocol (NTP) server(s) (Option 4)
+Wrapper parameter: 'puppet-dhcp' module class parameter
+
+Default value: `[]`
+
+##### `pools`
+
+Data type: `Hash[String, Hash]`
+
+Specify DHCP pool(s)/zone(s) attributes (e.g. subnets, gateway, etc)
+Wrapper parameter: 'puppet-dhcp' module class parameter
+
+Default value: `{}`
 
 ### `profiles::disk`
 
