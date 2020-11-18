@@ -24,3 +24,4 @@ mod 'example42-network', '3.5.3'
 #
 # Community
 #
+mod 'theforeman-dns', '8.1.0'
