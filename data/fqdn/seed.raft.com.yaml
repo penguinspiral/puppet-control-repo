@@ -22,6 +22,20 @@ profiles::disk::mounts:
     options: 'ro,x-mount.mkdir'
     atboot: true
 
+profiles::dns::service_ensure: 'running'
+profiles::dns::recursion: 'yes'
+profiles::dns::allow_recursion:
+  - 'trusted'
+profiles::dns::forward: 'only'
+profiles::dns::forwarders:
+  - 8.8.8.8
+  - 1.1.1.1
+profiles::dns::acls:
+  'trusted':
+    - '192.168.0.0/16'
+profiles::dns::additional_options:
+  listen-on: "{ %{lookup('profiles::network::interfaces.eno1.ipaddress')}; }"
+
 profiles::network::interfaces:
   'eno1':
     ipaddress:       '192.168.0.2'
