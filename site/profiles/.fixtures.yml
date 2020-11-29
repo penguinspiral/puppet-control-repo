@@ -9,6 +9,9 @@ fixtures:
     concat:
       repo: "puppetlabs-concat"
       ref:  "6.2.0"
+    dns:
+      repo: "theforeman-dns"
+      ref:  "8.1.0"
     ini_setting:
       repo: "puppetlabs-inifile"
       ref:  "4.3.0"
