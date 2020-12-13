@@ -5,3 +5,4 @@ classes:
   - profiles::disk
   - profiles::apt
   - profiles::dhcp
+  - profiles::dns

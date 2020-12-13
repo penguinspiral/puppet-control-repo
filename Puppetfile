@@ -24,4 +24,5 @@ mod 'example42-network', '3.5.3'
 #
 # Community
 #
-mod 'puppet-dhcp',           '4.0.1'
+mod 'puppet-dhcp',    '4.0.1'
+mod 'theforeman-dns', '8.1.0'
