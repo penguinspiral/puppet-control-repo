@@ -16,6 +16,10 @@
       "version_requirement": "6.2.0"
     },
     {
+      "name": "puppet/dhcp",
+      "version_requirement": "4.0.1"
+    },
+    {
       "name": "puppetlabs/inifile",
       "version_requirement": "4.3.0"
     },
