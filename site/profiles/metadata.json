@@ -1,6 +1,6 @@
 {
   "name": "penguinspiral-profiles",
-  "version": "0.4.1",
+  "version": "0.6.0",
   "author": "grindon",
   "summary": "Roles & Profiles pattern",
   "license": "GPL-3.0-or-later",
@@ -14,6 +14,10 @@
     {
       "name": "puppetlabs/concat",
       "version_requirement": "6.2.0"
+    },
+    {
+      "name": "puppet/dhcp",
+      "version_requirement": "4.0.1"
     },
     {
       "name": "puppetlabs/inifile",
@@ -38,6 +42,10 @@
     {
       "name": "example42/network",
       "version_requirement": "3.5.3"
+    },
+    {
+      "name": "theforeman/dns",
+      "version_requirement": "8.1.0"
     }
   ],
   "operatingsystem_support": [

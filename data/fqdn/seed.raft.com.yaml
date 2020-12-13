@@ -13,6 +13,26 @@ profiles::apt::sources:
 
 profiles::bootstrap::seed: true
 
+profiles::dhcp::service_ensure: 'running'
+profiles::dhcp::interfaces:
+  - "%{facts.networking.primary}"
+profiles::dhcp::dnsdomain:
+  - 'raft.com'
+profiles::dhcp::nameservers:
+  - '1.1.1.1'
+  - '8.8.4.4'
+profiles::dhcp::ntpservers:
+  - '0.us.pool.ntp.org'
+  - '1.us.pool.ntp.org'
+  - '2.us.pool.ntp.org'
+profiles::dhcp::pools:
+  'raft.com':
+     network: '192.168.0.0'
+     mask:    '255.255.0.0'
+     gateway: '192.168.0.1'
+     range:
+       - '192.168.0.2 192.168.0.254'
+
 profiles::disk::mounts:
   '/dev/disk/by-uuid/2020-10-21-10-31-14-00':
     name: '/media/cdrom'
@@ -21,6 +41,20 @@ profiles::disk::mounts:
     fstype: 'iso9660'
     options: 'ro,x-mount.mkdir'
     atboot: true
+
+profiles::dns::service_ensure: 'running'
+profiles::dns::recursion: 'yes'
+profiles::dns::allow_recursion:
+  - 'trusted'
+profiles::dns::forward: 'only'
+profiles::dns::forwarders:
+  - 8.8.8.8
+  - 1.1.1.1
+profiles::dns::acls:
+  'trusted':
+    - '192.168.0.0/16'
+profiles::dns::additional_options:
+  listen-on: "{ %{lookup('profiles::network::interfaces.eno1.ipaddress')}; }"
 
 profiles::network::interfaces:
   'eno1':
