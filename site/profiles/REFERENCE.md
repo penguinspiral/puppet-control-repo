@@ -22,6 +22,9 @@ Binds the Puppet master daemon to localhost for isolated catalog generation
 Manually specifies the static "seed" role fact
 * [`profiles::disk`](#profilesdisk): Manages the node's "external" block devices (i.e. non-root)
 Performs filesystem creation and manages mount behaviours
+* [`profiles::dns`](#profilesdns): Manages ISC BIND DNS server (bind9) configuration/behaviour
+Responsible for zone allocation, recursion & forwarding, rndc keys, etc.
+Predominantly a wrapper around the 'theforeman-dns' Forge module
 * [`profiles::network`](#profilesnetwork): Manages the node's network interface(s), static route(s), rule(s)
 Leverages the '/etc/network/interfaces' consumed by `ifup/ifdown`
 
@@ -199,6 +202,119 @@ Data type: `Hash`
 
 Mount options of the target block device(s)
 Title: udev disk by-uuid (filesystem)
+
+Default value: `{}`
+
+### `profiles::dns`
+
+Manages ISC BIND DNS server (bind9) configuration/behaviour
+Responsible for zone allocation, recursion & forwarding, rndc keys, etc.
+Predominantly a wrapper around the 'theforeman-dns' Forge module
+
+#### Examples
+
+##### 
+
+```puppet
+include profiles::dns
+```
+
+#### Parameters
+
+The following parameters are available in the `profiles::dns` class.
+
+##### `service_ensure`
+
+Data type: `Stdlib::Ensure::Service`
+
+Specify the bind9 service state
+Wrapper parameter: 'theforeman-dns' module class parameter
+
+Default value: `'stopped'`
+
+##### `recursion`
+
+Data type: `Enum['yes', 'no']`
+
+Specify whether the DNS server operates in "Recursive Mode"
+Ref: "Recursive Mode" definition (https://tools.ietf.org/html/rfc7719)
+Wrapper parameter: 'theforeman-dns' module class parameter
+
+Default value: `'no'`
+
+##### `allow_recursion`
+
+Data type: `Array[String]`
+
+Specify the *global* "address(es)" allowed to perform "recursive" queries
+Wrapper parameter: 'theforeman-dns' module class parameter
+
+Default value: `['none']`
+
+##### `allow_query`
+
+Data type: `Array[String]`
+
+Specify the *global* "address(es)" allowed to perform managed zone queries
+Wrapper parameter: 'theforeman-dns' module class parameter
+
+Default value: `['none']`
+
+##### `forward`
+
+Data type: `Optional[Enum['only', 'first']]`
+
+Specify the "type" of DNS query forwarding to be performed
+Ref: "Forwarders" definition (https://tools.ietf.org/html/rfc7719)
+Wrapper parameter: 'theforeman-dns' module class parameter
+
+Default value: ``undef``
+
+##### `forwarders`
+
+Data type: `Array[Stdlib::IP::Address::V4]`
+
+Specify the DNS server(s) IPs that will answer forwarded DNS queries
+Leveraging Stdlib IPv4 type to adhere to 'bind9' compatibility
+Wrapper parameter: 'theforeman-dns' module class parameter
+
+Default value: `[]`
+
+##### `acls`
+
+Data type: `Hash[String, Array[String]]`
+
+Specify Access Control List(s) (ACL) statement(s) in 'named.conf'
+Ref: "acls" section (https://bind9.readthedocs.io/en/latest/reference.html)
+Wrapper parameter: 'theforeman-dns' module class parameter
+
+Default value: `{}`
+
+##### `keys`
+
+Data type: `Hash[String, Hash]`
+
+Specify local Remote Name Daemon Control (RNDC) key(s)
+Wrapper parameter: 'theforeman-dns' module class parameter
+
+Default value: `{}`
+
+##### `zones`
+
+Data type: `Hash[String, Hash]`
+
+Specify authoritative/managed DNS "zone(s)"
+Ref: "Zones" definition (https://tools.ietf.org/html/rfc7719#section-6)
+Wrapper parameter: 'theforeman-dns' module class parameter
+
+Default value: `{}`
+
+##### `additional_options`
+
+Data type: `Hash[String, Data]`
+
+Specify additional generic/free-form options appended to 'options.conf'
+Wrapper parameter: 'theforeman-dns' module class parameter
 
 Default value: `{}`
 
