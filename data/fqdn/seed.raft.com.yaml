@@ -19,8 +19,9 @@ profiles::dhcp::interfaces:
 profiles::dhcp::dnsdomain:
   - 'raft.com'
 profiles::dhcp::nameservers:
+  - "%{lookup('profiles::network::interfaces.eno1.ipaddress')}"
+  - '8.8.8.8'
   - '1.1.1.1'
-  - '8.8.4.4'
 profiles::dhcp::ntpservers:
   - '0.us.pool.ntp.org'
   - '1.us.pool.ntp.org'
@@ -48,8 +49,8 @@ profiles::dns::allow_recursion:
   - 'trusted'
 profiles::dns::forward: 'only'
 profiles::dns::forwarders:
-  - 8.8.8.8
-  - 1.1.1.1
+  - '8.8.8.8'
+  - '1.1.1.1'
 profiles::dns::acls:
   'trusted':
     - '192.168.0.0/16'
