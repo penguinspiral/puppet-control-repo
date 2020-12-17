@@ -19,6 +19,7 @@ profiles::dhcp::interfaces:
 profiles::dhcp::dnsdomain:
   - 'raft.com'
 profiles::dhcp::nameservers:
+  - "%{lookup('profiles::network::interfaces.eno1.ipaddress')}"
   - '1.1.1.1'
   - '8.8.4.4'
 profiles::dhcp::ntpservers:
