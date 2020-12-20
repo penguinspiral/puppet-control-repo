@@ -42,6 +42,15 @@
 #   Specify local Remote Name Daemon Control (RNDC) key(s)
 #   Wrapper parameter: 'theforeman-dns' module class parameter
 #
+# @param enable_views
+#   Specify support for "Views", removes global zone configuration
+#   Ref: "Views" definition (https://tools.ietf.org/html/rfc7719#section-5)
+#   Wrapper parameter: 'theforeman-dns' module class parameter
+#
+# @param views
+#   Specify managed DNS "view(s)" depending on query attributes/characteristics
+#   Facilitates multiple "view" instantiations via Hash data resource definitions
+#
 # @param zones
 #   Specify authoritative/managed DNS "zone(s)"
 #   Ref: "Zones" definition (https://tools.ietf.org/html/rfc7719#section-6)
@@ -60,6 +69,8 @@ class profiles::dns(
   Array[Stdlib::IP::Address::V4]  $forwarders         = [],
   Hash[String, Array[String]]     $acls               = {},
   Hash[String, Hash]              $keys               = {},
+  Boolean                         $enable_views       = false,
+  Hash[String, Hash]              $views              = {},
   Hash[String, Hash]              $zones              = {},
   Hash[String, Data]              $additional_options = {},
 ) {
@@ -72,7 +83,10 @@ class profiles::dns(
     forwarders         => $forwarders,
     acls               => $acls,
     keys               => $keys,
+    enable_views       => $enable_views,
     zones              => $zones,
     additional_options => $additional_options,
   }
+
+  create_resources('dns::view', $views)
 }

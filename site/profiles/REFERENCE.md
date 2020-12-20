@@ -389,6 +389,25 @@ Wrapper parameter: 'theforeman-dns' module class parameter
 
 Default value: `{}`
 
+##### `enable_views`
+
+Data type: `Boolean`
+
+Specify support for "Views", removes global zone configuration
+Ref: "Views" definition (https://tools.ietf.org/html/rfc7719#section-5)
+Wrapper parameter: 'theforeman-dns' module class parameter
+
+Default value: ``false``
+
+##### `views`
+
+Data type: `Hash[String, Hash]`
+
+Specify managed DNS "view(s)" depending on query attributes/characteristics
+Facilitates multiple "view" instantiations via Hash data resource definitions
+
+Default value: `{}`
+
 ##### `zones`
 
 Data type: `Hash[String, Hash]`

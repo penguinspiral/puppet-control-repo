@@ -461,6 +461,135 @@ describe 'profiles::dns', type: :class do
     end
   end
 
+  context 'when ::enable_views valid' do
+    context 'when ::enable_views true' do
+      let :params do
+        {
+          enable_views: true,
+        }
+      end
+
+      it {
+        is_expected.to contain_file('/etc/bind/views').with(
+          ensure: 'directory',
+          owner:  'root',
+          group:  'bind',
+          mode:   '0755',
+        )
+      }
+      it { is_expected.to compile }
+    end
+
+    context 'when ::enable_views false' do
+      let :params do
+        {
+          enable_views: false,
+        }
+      end
+
+      it { is_expected.not_to contain_file('/etc/bind/views') }
+      it { is_expected.to compile }
+    end
+  end
+
+  context 'when ::enable_views invalid' do
+    invalid = [123, 'string', ['global', 'no-recursion']]
+    invalid.each do |enable_views|
+      context "when ::enable_views #{enable_views}" do
+        let :params do
+          {
+            enable_views: enable_views,
+          }
+        end
+
+        it { is_expected.to raise_error(Puppet::Error, %r{expects a Boolean}) }
+        it { is_expected.not_to compile }
+      end
+    end
+  end
+
+  context 'when ::views valid' do
+    views =
+      {
+        'raft.com.view' =>
+          {
+            match_clients:   ['trusted'],
+            allow_recursion: ['any'],
+            recursion:       'yes',
+            forward:         'only',
+            forwarders:      ['8.8.8.8', '1.1.1.1'],
+          },
+      }
+    context "when ::views #{views}" do
+      let :params do
+        {
+          # dns::view dependency
+          enable_views: true,
+          views:        views,
+        }
+      end
+
+      views.each do |key, value|
+        it {
+          is_expected.to contain_concat("/etc/bind/views/#{key}.conf").with(
+            owner:   'root',
+            group:   'bind',
+            mode:    '0640',
+            replace: true,
+            before:  %r{Concat\[/etc/bind/zones.conf\]},
+            notify:  %r{Class\[Dns::Service\]},
+          )
+        }
+        it {
+          is_expected.to contain_concat_fragment("dns_view_header_#{key}.dns").with(
+            # rubocop:disable LineLength
+            content: %r{view "#{key}".*forward #{value[:forward]}.*forwarders { #{value[:forwarders].join('; ')}; };.*match-clients { #{value[:match_clients].join('; ')}; };.*allow-recursion { #{value[:allow_recursion].join('; ')}; };.*recursion #{value[:recursion]};}m,
+            # rubocop:enable LineLength
+          )
+        }
+      end
+      it { is_expected.to compile }
+    end
+  end
+
+  context 'when ::views invalid' do
+    invalid = [123, 'string', ['recursion', 'forward']]
+    invalid.each do |views|
+      context "when ::views #{views}" do
+        let :params do
+          {
+            views: views,
+          }
+        end
+
+        it { is_expected.to raise_error(Puppet::Error, %r{expects a Hash}) }
+        it { is_expected.not_to compile }
+      end
+    end
+    context 'when ::views enable_views: false' do
+      views =
+        {
+          'raft.com.view' =>
+            {
+              match_clients:   ['trusted'],
+              allow_recursion: ['any'],
+              recursion:       'yes',
+              forward:         'only',
+              forwarders:      ['8.8.8.8', '1.1.1.1'],
+            },
+        }
+      let :params do
+        {
+          enable_views: false,
+          views:        views,
+        }
+      end
+
+      it { is_expected.to raise_error(Puppet::Error, %r{\$dns::enable_views to true in order to use dns::view}) }
+      it { is_expected.not_to compile }
+    end
+  end
+
   context 'when ::zones valid' do
     zones =
       {
