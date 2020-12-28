@@ -1,0 +1,6 @@
+---
+profiles::ssh::keys:
+  'raft.com':
+    user: 'debian'
+    type: 'ssh-rsa'
+    key:  'AAAAB3NzaC1yc2EAAAADAQABAAABAQCvgu7p7cM17pL41bfJu+9VbH5t+APGnqxHQRdG2qlAr2TTKzlCxVslau7a5tay2lGJ757dNE6mrGVGwVDMorTADU9eqlA2ajwVTQpDtmblUSVzXDutKop/KPyDCnh8I+1mIgGp4jm1Fa0AP0LqJziY8WtS9waNphwMFjw+xCAGxI+a8dt49QrtmGonMouxMyRRB5pjzKjAPfVazsK4mCtWGvHX5m0Q+PCjd0DZPRflD1OuBvTG7KFoDVGxwDJqOIjAZ4vBkF/wO7wpsoKS9K2uNEhPEysR4JFbZbCyVgVXp6vint11025YOTjSHldQSZcEwbfgZOAfl09Qb8Um03ET'
