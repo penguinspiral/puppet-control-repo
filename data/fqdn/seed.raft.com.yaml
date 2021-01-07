@@ -44,6 +44,9 @@ profiles::disk::mounts:
     atboot: true
 
 profiles::dns::service_ensure: 'running'
+profiles::dns::keys:
+  'raft.com':
+    algorithm: 'hmac-md5'
 profiles::dns::acls:
   'trusted':
     - '192.168.0.0/16'
