@@ -64,10 +64,14 @@ profiles::dns::views:
 profiles::dns::zones:
   'raft.com':
     manage_file: true
+    target_views:
+      - 'raft.com'
     soa: "%{facts.networking.hostname}.raft.com"
     soaip: "%{lookup('profiles::network::interfaces.eno1.ipaddress')}"
   '0.168.192.in-addr.arpa':
     manage_file: true
+    target_views:
+      - 'raft.com'
     reverse: true
     soa: "%{facts.networking.hostname}.raft.com"
 profiles::dns::additional_options:
