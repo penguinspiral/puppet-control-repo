@@ -54,6 +54,11 @@ profiles::dns::forwarders:
 profiles::dns::acls:
   'trusted':
     - '192.168.0.0/16'
+profiles::dns::zones:
+  'raft.com':
+    manage_file: true
+    soa: "%{facts.networking.hostname}.raft.com"
+    soaip: "%{lookup('profiles::network::interfaces.eno1.ipaddress')}"
 profiles::dns::additional_options:
   listen-on: "{ %{lookup('profiles::network::interfaces.eno1.ipaddress')}; }"
 
