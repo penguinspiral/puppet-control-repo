@@ -87,8 +87,6 @@ profiles::dns::zones:
         action: 'grant'
         matchtype: 'zonesub'
         rr: 'PTR TXT DHCID'
-profiles::dns::additional_options:
-  listen-on: "{ %{lookup('profiles::network::interfaces.eno1.ipaddress')}; }"
 
 profiles::network::interfaces:
   'eno1':
