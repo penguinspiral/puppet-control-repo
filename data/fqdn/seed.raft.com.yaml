@@ -59,6 +59,10 @@ profiles::dns::zones:
     manage_file: true
     soa: "%{facts.networking.hostname}.raft.com"
     soaip: "%{lookup('profiles::network::interfaces.eno1.ipaddress')}"
+  '0.168.192.in-addr.arpa':
+    manage_file: true
+    reverse: true
+    soa: "%{facts.networking.hostname}.raft.com"
 profiles::dns::additional_options:
   listen-on: "{ %{lookup('profiles::network::interfaces.eno1.ipaddress')}; }"
 
