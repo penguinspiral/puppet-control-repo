@@ -32,7 +32,7 @@ profiles::dhcp::pools:
      mask:    '255.255.0.0'
      gateway: '192.168.0.1'
      range:
-       - '192.168.0.2 192.168.0.254'
+       - '192.168.0.3 192.168.0.254'
 
 profiles::disk::mounts:
   '/dev/disk/by-uuid/2020-10-21-10-31-14-00':
