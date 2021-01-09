@@ -1,1 +1,6 @@
---- {}
+---
+lookup_options:
+  profiles::ssh::keys:
+    merge:
+      strategy: deep
+      knockout_prefix: '--'

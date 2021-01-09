@@ -6,6 +6,9 @@ fixtures:
     apt:
       repo: "puppetlabs-apt"
       ref:  "7.6.0"
+    common:
+      repo: "ghoneycutt-common"
+      ref:  "1.10.0"
     concat:
       repo: "puppetlabs-concat"
       ref:  "6.2.0"
@@ -15,6 +18,9 @@ fixtures:
     dns:
       repo: "theforeman-dns"
       ref:  "8.1.0"
+    firewall:
+      repo: "puppetlabs-firewall"
+      ref:  "2.8.0"
     ini_setting:
       repo: "puppetlabs-inifile"
       ref:  "4.3.0"
@@ -27,6 +33,12 @@ fixtures:
     mount_core:
       repo: "puppetlabs-mount_core"
       ref:  "1.0.4"
+    ssh:
+      repo: "ghoneycutt-ssh"
+      ref:  "3.62.0"
+    sshkeys_core:
+      repo: "puppetlabs-sshkeys_core"
+      ref:  "2.2.0"
     stdlib:
       repo: "puppetlabs-stdlib"
       ref:  "6.5.0"
