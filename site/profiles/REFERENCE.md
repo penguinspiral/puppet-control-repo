@@ -229,7 +229,8 @@ Default value: `[]`
 
 Data type: `Array[Stdlib::IP::Address::V4]`
 
-Specify "global" DNS nameserver(s) (Option 6)
+Specify "global" DNS nameserver(s) IPv4 addresses (Option 6)
+First DNS nameserver is specified as "primary" for all DDNS zones
 Wrapper parameter: 'puppet-dhcp' module class parameter
 
 Default value: `[]`
@@ -251,6 +252,61 @@ Specify Network Time Protocol (NTP) server(s) (Option 4)
 Wrapper parameter: 'puppet-dhcp' module class parameter
 
 Default value: `[]`
+
+##### `dnsupdatekey`
+
+Data type: `Optional[Stdlib::Absolutepath]`
+
+Specify a Remote Name Daemon Control (RNDC) key file for Dynamic DNS (DDNS)
+DDNS is disabled unless the absolute path for a valid key is set
+Wrapper parameter: 'puppet-dhcp' module class parameter
+
+Default value: ``undef``
+
+##### `dnskeyname`
+
+Data type: `String[1]`
+
+Specify the RNDC key name for reference in DDNS zone definitions
+Wrapper parameter: 'puppet-dhcp' module class parameter
+
+Default value: `'rndc-key'`
+
+##### `ddns_client_updates`
+
+Data type: `Enum['allow', 'deny']`
+
+Specify whether perform DDNS updates for clients on their behalf
+Wrapper parameter: 'puppet-dhcp' module class parameter
+
+Default value: `'deny'`
+
+##### `ddns_update_style`
+
+Data type: `Enum['ad-hoc', 'interim', 'standard', 'none']`
+
+Specify DDNS update "style"; communication method between DHCP & DNS server
+Wrapper parameter: 'puppet-dhcp' module class parameter
+
+Default value: `'standard'`
+
+##### `ddns_update_static`
+
+Data type: `Enum['on', 'off']`
+
+Specify whether to perform DNS updates for assigned "static" clients
+Wrapper parameter: 'puppet-dhcp' module class parameter
+
+Default value: `'off'`
+
+##### `ddns_update_optimize`
+
+Data type: `Enum['on', 'off']`
+
+Specify whether to perform DDNS updates "on-change" or "always"
+Wrapper parameter: 'puppet-dhcp' module class parameter
+
+Default value: `'on'`
 
 ##### `pools`
 
