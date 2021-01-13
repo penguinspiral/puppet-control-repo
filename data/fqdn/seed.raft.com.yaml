@@ -57,10 +57,13 @@ profiles::dns::acls:
 profiles::dns::enable_views: true
 profiles::dns::views:
   'raft.com':
-    match_clients: "%{alias('profiles::dns::acls.trusted')}"
+    match_clients:
+      - 'trusted'
     recursion: 'yes'
-    allow_recursion: "%{alias('profiles::dns::acls.trusted')}"
-    allow_query: "%{alias('profiles::dns::acls.trusted')}"
+    allow_recursion:
+      - 'trusted'
+    allow_query:
+      - 'trusted'
     forward: 'only'
     forwarders:
       - 8.8.8.8
