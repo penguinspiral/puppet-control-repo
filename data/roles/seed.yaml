@@ -4,6 +4,6 @@ classes:
   - profiles::network
   - profiles::disk
   - profiles::apt
-  - profiles::dhcp
   - profiles::dns
+  - profiles::dhcp
   - profiles::ssh
