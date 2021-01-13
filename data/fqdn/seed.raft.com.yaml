@@ -18,6 +18,7 @@ profiles::dhcp::interfaces:
   - "%{facts.networking.primary}"
 profiles::dhcp::dnsdomain:
   - 'raft.com'
+  - '0.168.192.in-addr.arpa'
 profiles::dhcp::nameservers:
   - "%{lookup('profiles::network::interfaces.eno1.ipaddress')}"
   - '8.8.8.8'
