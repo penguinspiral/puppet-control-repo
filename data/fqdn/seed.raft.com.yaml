@@ -18,6 +18,7 @@ profiles::dhcp::interfaces:
   - "%{facts.networking.primary}"
 profiles::dhcp::dnsdomain:
   - 'raft.com'
+  - '0.168.192.in-addr.arpa'
 profiles::dhcp::nameservers:
   - "%{lookup('profiles::network::interfaces.eno1.ipaddress')}"
   - '8.8.8.8'
@@ -55,13 +56,10 @@ profiles::dns::acls:
 profiles::dns::enable_views: true
 profiles::dns::views:
   'raft.com':
-    match_clients:
-      - 'trusted'
+    match_clients: "%{alias('profiles::dns::acls.trusted')}"
     recursion: 'yes'
-    allow_recursion:
-      - 'trusted'
-    allow_query:
-      - 'trusted'
+    allow_recursion: "%{alias('profiles::dns::acls.trusted')}"
+    allow_query: "%{alias('profiles::dns::acls.trusted')}"
     forward: 'only'
     forwarders:
       - 8.8.8.8
