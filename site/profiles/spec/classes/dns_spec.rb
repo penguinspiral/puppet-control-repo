@@ -60,6 +60,16 @@ describe 'profiles::dns', type: :class do
       }
     end
     it {
+      is_expected.to contain_concat_file('/etc/bind/named.conf').with(
+        validate_cmd: '/usr/sbin/named-checkconf %',
+      )
+    }
+    it {
+      is_expected.to contain_concat_file('/etc/bind/zones.conf').with(
+        validate_cmd: '/usr/sbin/named-checkconf %',
+      )
+    }
+    it {
       is_expected.to contain_concat_fragment('options.conf+10-main.dns').with(
         target:  '/etc/bind/named.conf.options',
         content: %r{\nrecursion no;.*allow-query { none; };.*allow-recursion { none; };.*}m,
@@ -96,6 +106,55 @@ describe 'profiles::dns', type: :class do
         end
 
         it { is_expected.to raise_error(Puppet::Error, %r{expects a match for Stdlib::Ensure::Service}) }
+        it { is_expected.not_to compile }
+      end
+    end
+  end
+
+  context 'when ::config_check valid' do
+    context 'when ::config_check true' do
+      let :params do
+        {
+          config_check: true,
+        }
+      end
+
+      it {
+        is_expected.to contain_concat_file('/etc/bind/named.conf').with(
+          validate_cmd: '/usr/sbin/named-checkconf %',
+        )
+      }
+      it {
+        is_expected.to contain_concat_file('/etc/bind/zones.conf').with(
+          validate_cmd: '/usr/sbin/named-checkconf %',
+        )
+      }
+      it { is_expected.to compile }
+    end
+    context 'when ::config_check false' do
+      let :params do
+        {
+          config_check: false,
+        }
+      end
+
+      it { is_expected.to contain_concat_file('/etc/bind/named.conf').without_validate_cmd }
+      it { is_expected.to contain_concat_file('/etc/bind/zones.conf').without_validate_cmd }
+      it { is_expected.to compile }
+    end
+  end
+
+  context 'when ::config_check invalid' do
+    invalid = [123, 'true', [true]]
+    invalid.each do |config_check|
+      context "when ::config_check #{config_check}" do
+        let :params do
+          {
+            config_check: config_check,
+          }
+        end
+
+        it { is_expected.to raise_error(Puppet::Error, %r{expects a Boolean}) }
         it { is_expected.not_to compile }
       end
     end
