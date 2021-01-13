@@ -47,6 +47,7 @@ profiles::disk::mounts:
     atboot: true
 
 profiles::dns::service_ensure: 'running'
+profiles::dns::config_check: false
 profiles::dns::keys:
   'raft.com':
     algorithm: 'hmac-md5'
