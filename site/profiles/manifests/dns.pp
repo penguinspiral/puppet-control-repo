@@ -10,6 +10,10 @@
 #   Specify the bind9 service state
 #   Wrapper parameter: 'theforeman-dns' module class parameter
 #
+# @param config_check
+#   Specify whether DNS server configuration files are validated
+#   Wrapper parameter: 'theforeman-dns' module class parameter
+#
 # @param recursion
 #   Specify whether the DNS server operates in "Recursive Mode"
 #   Ref: "Recursive Mode" definition (https://tools.ietf.org/html/rfc7719)
@@ -62,6 +66,7 @@
 #
 class profiles::dns(
   Stdlib::Ensure::Service         $service_ensure     = 'stopped',
+  Boolean                         $config_check       = true,
   Enum['yes', 'no']               $recursion          = 'no',
   Array[String]                   $allow_recursion    = ['none'],
   Array[String]                   $allow_query        = ['none'],
@@ -76,6 +81,7 @@ class profiles::dns(
 ) {
   class { 'dns':
     service_ensure     => $service_ensure,
+    config_check       => $config_check,
     recursion          => $recursion,
     allow_recursion    => $allow_recursion,
     allow_query        => $allow_query,
