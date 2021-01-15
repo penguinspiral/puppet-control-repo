@@ -381,6 +381,15 @@ Wrapper parameter: 'theforeman-dns' module class parameter
 
 Default value: `'stopped'`
 
+##### `config_check`
+
+Data type: `Boolean`
+
+Specify whether DNS server configuration files are validated
+Wrapper parameter: 'theforeman-dns' module class parameter
+
+Default value: ``true``
+
 ##### `recursion`
 
 Data type: `Enum['yes', 'no']`
