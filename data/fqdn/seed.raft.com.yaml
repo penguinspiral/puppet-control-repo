@@ -38,9 +38,9 @@ profiles::dhcp::pools:
        - '192.168.0.3 192.168.0.254'
 
 profiles::disk::mounts:
-  '/dev/disk/by-uuid/2020-10-21-10-31-14-00':
+  '/dev/disk/by-uuid/2021-04-07-08-54-36-00':
     name: '/media/cdrom'
-    device: 'UUID=2020-10-21-10-31-14-00'
+    device: 'UUID=2021-04-07-08-54-36-00'
     ensure: mounted
     fstype: 'iso9660'
     options: 'ro,x-mount.mkdir'
