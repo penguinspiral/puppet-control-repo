@@ -5,11 +5,15 @@
 # @example
 #   include profiles::bootstrap
 #
-# @param puppet_server
+# @param puppet_config
+#   Specify the absolute path to the global Puppet configuration file
+#
+# @param puppetserver
 #   Specify the hostname of the targeted Puppetserver
 #
 class profiles::bootstrap::node::agent(
-  Stdlib::Host $puppet_server = 'localhost',
+  Stdlib::AbsolutePath $puppet_config = $settings::config,
+  Stdlib::Host         $puppetserver = 'localhost',
 ) {
 
   file { '/etc/systemd/system/multi-user.target.wants/puppet.service':
@@ -19,13 +23,13 @@ class profiles::bootstrap::node::agent(
     target => '/lib/systemd/system/puppet.service',
   }
 
-  ini_setting { 'puppet_server_host':
+  ini_setting { 'puppetserver_host':
     ensure            => present,
-    path              => '/etc/puppet/puppet.conf',
+    path              => $puppet_config,
     key_val_separator => '=',
     section           => 'main',
     setting           => 'server',
-    value             => $puppet_server,
+    value             => $puppetserver,
   }
 
 }
