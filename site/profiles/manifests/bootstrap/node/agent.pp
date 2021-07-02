@@ -1,12 +1,12 @@
 # @summary
-#   Specifies the Puppet agent's targeted Puppet server for obtain its catalog
+#   Specifies the Puppet agent's targeted Puppetserver for obtain its catalog
 #   Configures the Puppet agent to run at startup via systemd
 #
 # @example
 #   include profiles::bootstrap
 #
 # @param puppet_server
-#   Specifies the hostname of the Puppet server
+#   Specify the hostname of the targeted Puppetserver
 #
 class profiles::bootstrap::node::agent(
   Stdlib::Host $puppet_server = 'localhost',
