@@ -32,17 +32,17 @@ class profiles::bootstrap::node::server(
       group => 'root',
     ;
 
-    '/etc/systemd/system/multi-user.target.wants/puppet-master.service':
+    '/etc/systemd/system/multi-user.target.wants/puppetserver.service':
       ensure => link,
-      target => '/lib/systemd/system/puppet-master.service',
+      target => '/lib/systemd/system/puppetserver.service',
     ;
 
-    '/etc/systemd/system/puppet-master.service.d':
+    '/etc/systemd/system/puppetserver.service.d':
       ensure => directory,
     ;
 
-    # Puppet master must start before Puppet agent
-    '/etc/systemd/system/puppet-master.service.d/override.conf':
+    # Puppetserver must start before Puppet agent
+    '/etc/systemd/system/puppetserver.service.d/override.conf':
       ensure  => file,
       content => "[Unit]\nBefore=puppet.service",
     ;
