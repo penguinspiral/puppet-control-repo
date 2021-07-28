@@ -68,8 +68,8 @@ class profiles::bootstrap::node::server(
       value   => "${r10k_binary} deploy environment --verbose --puppetfile --config ${r10k_config}",
     ;
 
-    'puppet_master_dns_cert':
-      section => 'master',
+    'puppetserver_dns_alt_names':
+      section => 'server',
       setting => 'dns_alt_names',
       value   => 'localhost',
     ;
