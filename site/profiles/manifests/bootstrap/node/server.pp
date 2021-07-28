@@ -48,6 +48,13 @@ class profiles::bootstrap::node::server(
     ;
   }
 
+  hocon_setting { 'puppetserver_webserver_host':
+    ensure  => present,
+    path    => $puppetserver_web_config,
+    setting => 'webserver.ssl-host',
+    value   => 'localhost',
+  }
+
   ini_setting {
     default:
       ensure            => present,
@@ -65,12 +72,6 @@ class profiles::bootstrap::node::server(
       section => 'master',
       setting => 'dns_alt_names',
       value   => 'localhost',
-    ;
-
-    'puppet_master_localhost':
-      section => 'master',
-      setting => 'bindaddress',
-      value   => '127.0.0.1',
     ;
   }
 
