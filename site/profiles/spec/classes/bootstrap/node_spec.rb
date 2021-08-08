@@ -4,7 +4,7 @@ describe 'profiles::bootstrap::node', type: :class do
   context 'when default' do
     it { is_expected.to compile }
     it { is_expected.to contain_class('profiles::bootstrap::node::agent') }
-    it { is_expected.to contain_class('profiles::bootstrap::node::master') }
+    it { is_expected.to contain_class('profiles::bootstrap::node::server') }
   end
 
   context 'when ::serverless false' do
@@ -16,7 +16,7 @@ describe 'profiles::bootstrap::node', type: :class do
 
     it { is_expected.to compile }
     it { is_expected.to contain_class('profiles::bootstrap::node::agent') }
-    it { is_expected.not_to contain_class('profiles::bootstrap::node::master') }
+    it { is_expected.not_to contain_class('profiles::bootstrap::node::server') }
   end
 
   context 'when ::serverless invalid' do
