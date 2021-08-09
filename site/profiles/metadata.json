@@ -1,6 +1,6 @@
 {
   "name": "penguinspiral-profiles",
-  "version": "0.7.2",
+  "version": "0.7.4",
   "author": "grindon",
   "summary": "Roles & Profiles pattern",
   "license": "GPL-3.0-or-later",
@@ -22,6 +22,10 @@
     {
       "name": "puppetlabs/firewall",
       "version_requirement": "2.8.0"
+    },
+    {
+      "name": "puppetlabs/hocon",
+      "version_requirement": "1.1.1"
     },
     {
       "name": "puppetlabs/inifile",
