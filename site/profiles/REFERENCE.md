@@ -14,10 +14,11 @@ This profile operates within a "limited" Debian Preseed chrooted environment
 Consequently extending this profile and its subclasses is discouraged
 * [`profiles::bootstrap::node`](#profilesbootstrapnode): Specifies how a targeted node's Puppet agent obtains its catalog
 Supports both a client-only and standalone (a.k.a. serverless) configuration
-* [`profiles::bootstrap::node::agent`](#profilesbootstrapnodeagent): Specifies the Puppet agent's targeted Puppet server for obtain its catalog
+* [`profiles::bootstrap::node::agent`](#profilesbootstrapnodeagent): Specifies the Puppet agent's targeted Puppetserver for obtain its catalog
 Configures the Puppet agent to run at startup via systemd
-* [`profiles::bootstrap::node::master`](#profilesbootstrapnodemaster): Configures a Puppet master to support a serverless Puppet deployment
-Binds the Puppet master daemon to localhost for isolated catalog generation
+* [`profiles::bootstrap::node::server`](#profilesbootstrapnodeserver): Configures a Puppetserver to support a "serverless" Puppet deployment
+Binds the Puppetserver daemon to localhost for isolated catalog generation
+Automatically generated CA environment includes "localhost" as a X509v3 SAN
 * [`profiles::bootstrap::seed`](#profilesbootstrapseed): Unique, singular "seed" node configuration
 Manually specifies the static "seed" role fact
 * [`profiles::dhcp`](#profilesdhcp): Manages isc-dhcp-server configuration/behaviour
@@ -119,13 +120,13 @@ The following parameters are available in the `profiles::bootstrap::node` class.
 
 Data type: `Boolean`
 
-Installs and configures a locally ran Puppet master for catalog generation
+Installs and configures a locally hosted Puppetserver for catalog generation
 
 Default value: ``true``
 
 ### `profiles::bootstrap::node::agent`
 
-Specifies the Puppet agent's targeted Puppet server for obtain its catalog
+Specifies the Puppet agent's targeted Puppetserver for obtain its catalog
 Configures the Puppet agent to run at startup via systemd
 
 #### Examples
@@ -140,18 +141,27 @@ include profiles::bootstrap
 
 The following parameters are available in the `profiles::bootstrap::node::agent` class.
 
-##### `puppet_server`
+##### `puppet_config`
+
+Data type: `Stdlib::AbsolutePath`
+
+Specify the absolute path to the global Puppet configuration file
+
+Default value: `$settings::config`
+
+##### `puppetserver`
 
 Data type: `Stdlib::Host`
 
-Specifies the hostname of the Puppet server
+Specify the hostname of the targeted Puppetserver
 
 Default value: `'localhost'`
 
-### `profiles::bootstrap::node::master`
+### `profiles::bootstrap::node::server`
 
-Configures a Puppet master to support a serverless Puppet deployment
-Binds the Puppet master daemon to localhost for isolated catalog generation
+Configures a Puppetserver to support a "serverless" Puppet deployment
+Binds the Puppetserver daemon to localhost for isolated catalog generation
+Automatically generated CA environment includes "localhost" as a X509v3 SAN
 
 #### Examples
 
@@ -160,6 +170,43 @@ Binds the Puppet master daemon to localhost for isolated catalog generation
 ```puppet
 include profiles::bootstrap
 ```
+
+#### Parameters
+
+The following parameters are available in the `profiles::bootstrap::node::server` class.
+
+##### `puppet_config`
+
+Data type: `Stdlib::AbsolutePath`
+
+Specify the absolute path to the global Puppet configuration file
+
+Default value: `$settings::config`
+
+##### `puppetserver_web_config`
+
+Data type: `Stdlib::AbsolutePath`
+
+Specify the absolute path to the Puppetserver Webserver configuration file
+
+Default value: `'/etc/puppetlabs/puppetserver/conf.d/webserver.conf'`
+
+##### `r10k_binary`
+
+Data type: `Stdlib::AbsolutePath`
+
+Specify the absolute path to the r10k binary
+
+Default value: `'/usr/bin/r10k'`
+
+##### `r10k_config`
+
+Data type: `Stdlib::AbsolutePath`
+
+Specify the absolute path to the r10k configuration file
+Tracked file within the penguinspiral/puppet-r10k Git repository
+
+Default value: `'/etc/puppetlabs/r10k/r10k.yaml'`
 
 ### `profiles::bootstrap::seed`
 

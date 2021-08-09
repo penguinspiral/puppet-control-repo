@@ -18,6 +18,9 @@ fixtures:
     firewall:
       repo: "puppetlabs-firewall"
       ref:  "2.8.0"
+    hocon_setting:
+      repo: "puppetlabs-hocon"
+      ref:  "1.1.0"
     ini_setting:
       repo: "puppetlabs-inifile"
       ref:  "4.3.0"
