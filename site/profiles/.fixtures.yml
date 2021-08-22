@@ -5,7 +5,7 @@ fixtures:
   forge_modules:
     apt:
       repo: "puppetlabs-apt"
-      ref:  "7.6.0"
+      ref:  "8.1.0"
     common:
       repo: "ghoneycutt-common"
       ref:  "1.10.0"

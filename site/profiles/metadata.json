@@ -9,7 +9,7 @@
   "dependencies": [
     {
       "name": "puppetlabs/apt",
-      "version_requirement": "7.6.0"
+      "version_requirement": "8.1.0"
     },
     {
       "name": "puppetlabs/concat",

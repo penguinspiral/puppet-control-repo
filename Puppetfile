@@ -1,7 +1,7 @@
 #
 # Supported
 #
-mod 'puppetlabs-apt',          '7.6.0'
+mod 'puppetlabs-apt',          '8.1.0'
 mod 'puppetlabs-concat',       '6.2.0'
 mod 'puppetlabs-firewall',     '2.8.0'
 mod 'puppetlabs-hocon',        '1.1.0'
