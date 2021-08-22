@@ -30,6 +30,4 @@ mod 'ghoneycutt-ssh',    '3.62.0'
 #
 mod 'ghoneycutt-common', '1.10.0'
 mod 'puppet-dhcp',       '4.0.1'
-mod 'theforeman-dns',
-  :git    => 'https://github.com/theforeman/puppet-dns',
-  :commit => 'cb7933a3048ca0c680fb7cb6ab68d189a8e7beda'
+mod 'theforeman-dns',    '9.0.0'
