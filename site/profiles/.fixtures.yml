@@ -15,6 +15,9 @@ fixtures:
     dhcp:
       repo: "puppet-dhcp"
       ref:  "4.0.1"
+    dns:
+      repo: "theforeman-dns"
+      ref:  "9.0.0"
     firewall:
       repo: "puppetlabs-firewall"
       ref:  "2.8.0"
@@ -45,7 +48,4 @@ fixtures:
     translate:
       repo: "puppetlabs-translate"
       ref:  "2.2.0"
-  repositories:
-    dns:
-      repo: "git://github.com/theforeman/puppet-dns.git"
-      ref:  "cb7933a3048ca0c680fb7cb6ab68d189a8e7beda"
+    
