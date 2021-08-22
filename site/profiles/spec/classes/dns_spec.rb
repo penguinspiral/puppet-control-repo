@@ -454,7 +454,7 @@ describe 'profiles::dns', type: :class do
       generated_keys.each do |key, value|
         it {
           is_expected.to contain_exec("create-#{key}.key").with(
-            command: "/usr/sbin/rndc-confgen -r /dev/urandom -a -c /etc/bind/#{key}.key -b #{value[:keysize]} -k #{key}",
+            command: "/usr/sbin/rndc-confgen -a -c /etc/bind/#{key}.key -b #{value[:keysize]} -k #{key}",
             creates: "/etc/bind/#{key}.key",
             before:  %r{^\[Class\[Dns::Config\]{.*}, \"File\[/etc/bind/#{key}.key\]\"\]$},
             notify:  %r{^Class\[Dns::Service\]},
