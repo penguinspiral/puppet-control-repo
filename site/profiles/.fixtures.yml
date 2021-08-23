@@ -26,7 +26,7 @@ fixtures:
       ref:  "1.1.0"
     ini_setting:
       repo: "puppetlabs-inifile"
-      ref:  "4.3.0"
+      ref:  "5.1.0"
     network:
       repo: "example42-network"
       ref:  "3.5.3"
