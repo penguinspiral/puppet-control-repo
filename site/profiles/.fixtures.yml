@@ -29,7 +29,7 @@ fixtures:
       ref:  "5.1.0"
     network:
       repo: "example42-network"
-      ref:  "3.5.3"
+      ref:  "3.6.0"
     lvm:
       repo: "puppetlabs-lvm"
       ref:  "1.4.0"
