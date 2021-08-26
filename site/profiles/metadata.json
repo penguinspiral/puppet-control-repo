@@ -1,6 +1,6 @@
 {
   "name": "penguinspiral-profiles",
-  "version": "0.7.4",
+  "version": "0.8.0",
   "author": "grindon",
   "summary": "Roles & Profiles pattern",
   "license": "GPL-3.0-or-later",
@@ -9,7 +9,7 @@
   "dependencies": [
     {
       "name": "puppetlabs/apt",
-      "version_requirement": "7.6.0"
+      "version_requirement": "8.1.0"
     },
     {
       "name": "puppetlabs/concat",
@@ -29,7 +29,7 @@
     },
     {
       "name": "puppetlabs/inifile",
-      "version_requirement": "4.3.0"
+      "version_requirement": "5.1.0"
     },
     {
       "name": "puppetlabs/lvm",
@@ -45,7 +45,7 @@
     },
     {
       "name": "puppetlabs/stdlib",
-      "version_requirement": "6.5.0"
+      "version_requirement": "8.0.0"
     },
     {
       "name": "puppetlabs/translate",
@@ -53,7 +53,7 @@
     },
     {
       "name": "example42/network",
-      "version_requirement": "3.5.3"
+      "version_requirement": "3.6.0"
     },
     {
       "name": "ghoneycutt/common",
@@ -65,7 +65,7 @@
     },
     {
       "name": "theforeman/dns",
-      "version_requirement": "8.1.0"
+      "version_requirement": "9.0.0"
     }
   ],
   "operatingsystem_support": [
@@ -79,10 +79,10 @@
   "requirements": [
     {
       "name": "puppet",
-      "version_requirement": ">= 5.5.10 < 7.0.0"
+      "version_requirement": ">= 7.0.0 < 8.0.0"
     }
   ],
-  "pdk-version": "1.18.1",
-  "template-url": "pdk-default#1.18.1",
-  "template-ref": "tags/1.18.1-0-g3d2e75c"
+  "pdk-version": "2.2.0",
+  "template-url": "pdk-default#2.2.0",
+  "template-ref": "tags/2.2.0-0-g2381db6"
 }

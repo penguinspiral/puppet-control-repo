@@ -1,22 +1,22 @@
 #
 # Supported
 #
-mod 'puppetlabs-apt',          '7.6.0'
+mod 'puppetlabs-apt',          '8.1.0'
 mod 'puppetlabs-concat',       '6.2.0'
 mod 'puppetlabs-firewall',     '2.8.0'
 mod 'puppetlabs-hocon',        '1.1.0'
-mod 'puppetlabs-inifile',      '4.3.0'
+mod 'puppetlabs-inifile',      '5.1.0'
 mod 'puppetlabs-lvm',          '1.4.0'
 mod 'puppetlabs-mount_core',   '1.0.4'
 mod 'puppetlabs-sshkeys_core', '2.2.0'
-mod 'puppetlabs-stdlib',       '6.5.0'
+mod 'puppetlabs-stdlib',       '8.0.0'
 mod 'puppetlabs-translate',    '2.2.0'
 
 
 #
 # Approved
 #
-mod 'example42-network', '3.5.3'
+mod 'example42-network', '3.6.0'
 mod 'ghoneycutt-ssh',    '3.62.0'
 
 
@@ -30,6 +30,4 @@ mod 'ghoneycutt-ssh',    '3.62.0'
 #
 mod 'ghoneycutt-common', '1.10.0'
 mod 'puppet-dhcp',       '4.0.1'
-mod 'theforeman-dns',
-  :git    => 'https://github.com/theforeman/puppet-dns',
-  :commit => 'cb7933a3048ca0c680fb7cb6ab68d189a8e7beda'
+mod 'theforeman-dns',    '9.0.0'

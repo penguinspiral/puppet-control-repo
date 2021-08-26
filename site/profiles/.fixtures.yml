@@ -5,7 +5,7 @@ fixtures:
   forge_modules:
     apt:
       repo: "puppetlabs-apt"
-      ref:  "7.6.0"
+      ref:  "8.1.0"
     common:
       repo: "ghoneycutt-common"
       ref:  "1.10.0"
@@ -15,6 +15,9 @@ fixtures:
     dhcp:
       repo: "puppet-dhcp"
       ref:  "4.0.1"
+    dns:
+      repo: "theforeman-dns"
+      ref:  "9.0.0"
     firewall:
       repo: "puppetlabs-firewall"
       ref:  "2.8.0"
@@ -23,10 +26,10 @@ fixtures:
       ref:  "1.1.0"
     ini_setting:
       repo: "puppetlabs-inifile"
-      ref:  "4.3.0"
+      ref:  "5.1.0"
     network:
       repo: "example42-network"
-      ref:  "3.5.3"
+      ref:  "3.6.0"
     lvm:
       repo: "puppetlabs-lvm"
       ref:  "1.4.0"
@@ -41,11 +44,8 @@ fixtures:
       ref:  "2.2.0"
     stdlib:
       repo: "puppetlabs-stdlib"
-      ref:  "6.5.0"
+      ref:  "8.0.0"
     translate:
       repo: "puppetlabs-translate"
       ref:  "2.2.0"
-  repositories:
-    dns:
-      repo: "git://github.com/theforeman/puppet-dns.git"
-      ref:  "cb7933a3048ca0c680fb7cb6ab68d189a8e7beda"
+    
