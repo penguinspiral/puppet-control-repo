@@ -15,7 +15,7 @@ describe 'profiles::dns', type: :class do
         '/etc/bind/named.conf.options',
       ]
     it { is_expected.to contain_class('dns') }
-    it { is_expected.to contain_package('bind9').with('ensure' => 'present') }
+    it { is_expected.to contain_package('bind9').with('ensure' => 'installed') }
     it { is_expected.to contain_service('bind9').with('ensure' => 'stopped') }
     it { is_expected.to have_file_resource_count(bind9_files.length) }
     it { is_expected.to have_concat_file_resource_count(bind9_files.length) }
