@@ -16,7 +16,7 @@ mod 'puppetlabs-translate',    '2.2.0'
 #
 # Approved
 #
-mod 'example42-network', '3.5.3'
+mod 'example42-network', '3.6.0'
 mod 'ghoneycutt-ssh',    '3.62.0'
 
 
