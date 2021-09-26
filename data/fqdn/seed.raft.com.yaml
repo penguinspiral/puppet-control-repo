@@ -101,3 +101,9 @@ profiles::network::interfaces:
     dns_search:      'raft.com'
     enable_dhcp:     false
     restart_all_nic: false
+
+profiles::tftp::directory:
+  - '/srv/tftp'
+profiles::tftp::options:
+  - '--ipv4'
+  - '--secure'
