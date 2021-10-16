@@ -45,7 +45,9 @@ fixtures:
     stdlib:
       repo: "puppetlabs-stdlib"
       ref:  "8.0.0"
+    tftp:
+      repo: "puppetlabs-tftp"
+      ref:  "1.0.0"
     translate:
       repo: "puppetlabs-translate"
       ref:  "2.2.0"
-    
