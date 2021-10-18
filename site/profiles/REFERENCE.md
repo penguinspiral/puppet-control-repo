@@ -34,6 +34,9 @@ Leverages the '/etc/network/interfaces' consumed by `ifup/ifdown`
 * [`profiles::ssh`](#profilesssh): Manages Open Secure SHell (OpenSSH) Client & Server configuration
 Responsible for configuration of ssh_config(5) and sshd_config(5) options
 Predominantly a wrapper around the 'ghoneycutt-ssh' Forge module
+* [`profiles::tftp`](#profilestftp): Manages Trivial File Transfer Protocol (TFTP) server configuration/behaviour
+Extensively utilised by "traditional" (i.e. non-EFI HTTP booting) PXE environments
+Predominantly a wrapper around the 'puppetlabs-tftp' Forge module
 
 ## Classes
 
@@ -664,4 +667,71 @@ Hash of 'ssh_authorized_key' defining $USER/.ssh/authorized_keys
 Wrapper parameter: 'ghoneycutt-ssh' module class parameter
 
 Default value: `{}`
+
+### `profiles::tftp`
+
+Manages Trivial File Transfer Protocol (TFTP) server configuration/behaviour
+Extensively utilised by "traditional" (i.e. non-EFI HTTP booting) PXE environments
+Predominantly a wrapper around the 'puppetlabs-tftp' Forge module
+
+#### Examples
+
+##### 
+
+```puppet
+include profiles::tftp
+```
+
+#### Parameters
+
+The following parameters are available in the `profiles::tftp` class.
+
+##### `address`
+
+Data type: `Stdlib::Host`
+
+Specify the IPv4 address for the TFTP daemon to listen on
+Defaults to 'localhost' for security sensibilities
+Wrapper parameter: 'puppetlabs-tftp' module class parameter
+
+Default value: `'localhost'`
+
+##### `port`
+
+Data type: `Stdlib::Port`
+
+Specify the port for the TFTP daemon to bind against
+Wrapper parameter: 'puppetlabs-tftp' module class parameter
+
+Default value: `69`
+
+##### `username`
+
+Data type: `String[1]`
+
+Specify the username for the TFTP daemon to run as
+Wrapper parameter: 'puppetlabs-tftp' module class parameter
+
+Default value: `'tftp'`
+
+##### `directory`
+
+Data type: `Array[Stdlib::Absolutepath]`
+
+Specify the director[y|ies] for the TFTP daemon to export
+Limited to exactly one directory when using '--secure' option
+Ref: man tftpd-hpa(8)
+Wrapper parameter: 'puppetlabs-tftp' module class parameter
+
+Default value: `[]`
+
+##### `options`
+
+Data type: `Array[String[1]]`
+
+Specify additional TFTP daemon runtime options
+Ref: man tftpd-hpa(8)
+Wrapper parameter: 'puppetlabs-tftp' module class parameter
+
+Default value: `[]`
 
