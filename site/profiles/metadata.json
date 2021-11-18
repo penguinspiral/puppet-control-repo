@@ -8,6 +8,10 @@
   "issues_url": "https://github.com/penguinspiral/puppet-control-repo/issues",
   "dependencies": [
     {
+      "name": "puppetlabs/apache",
+      "version_requirement": "7.0.0"
+    },
+    {
       "name": "puppetlabs/apt",
       "version_requirement": "8.1.0"
     },
