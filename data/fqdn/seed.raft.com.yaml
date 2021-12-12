@@ -92,6 +92,25 @@ profiles::dns::zones:
         matchtype: 'zonesub'
         rr: 'PTR TXT DHCID'
 
+profiles::http::service_enable: true
+profiles::http::service_ensure: 'running'
+profiles::http::vhosts:
+  "%{facts.networking.fqdn}":
+    ip: "%{lookup('profiles::network::interfaces.eno1.ipaddress')}"
+    port: 80
+    docroot: false
+    aliases:
+      - {
+          alias: '/mirror',
+          path:  "%{lookup('profiles::disk::mounts.\"/dev/disk/by-label/Debian 11.2 amd64 1\".name')}/mirror",
+        }
+    directories:
+      - {
+          path:           "%{lookup('profiles::disk::mounts.\"/dev/disk/by-label/Debian 11.2 amd64 1\".name')}/mirror",
+          options:        ['Indexes'],
+          allow_override: ['None'],
+        }
+
 profiles::network::interfaces:
   'eno1':
     ipaddress:       '192.168.0.2'
