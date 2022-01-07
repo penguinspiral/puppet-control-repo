@@ -38,9 +38,9 @@ profiles::dhcp::pools:
        - '192.168.0.3 192.168.0.254'
 
 profiles::disk::mounts:
-  '/dev/disk/by-label/Debian 10.10 amd64 1':
+  '/dev/disk/by-label/Debian 11.2 amd64 1':
     name: '/media/cdrom'
-    device: 'LABEL=Debian\04010.10\040amd64\0401'
+    device: 'LABEL=Debian\04011.2\040amd64\0401'
     ensure: mounted
     fstype: 'iso9660'
     options: 'ro,x-mount.mkdir'
