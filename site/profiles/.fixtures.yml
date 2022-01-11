@@ -36,9 +36,6 @@ fixtures:
     mount_core:
       repo: "puppetlabs-mount_core"
       ref:  "1.0.4"
-    ssh:
-      repo: "ghoneycutt-ssh"
-      ref:  "3.62.0"
     sshkeys_core:
       repo: "puppetlabs-sshkeys_core"
       ref:  "2.2.0"
@@ -51,3 +48,7 @@ fixtures:
     translate:
       repo: "puppetlabs-translate"
       ref:  "2.2.0"
+  repositories:
+    ssh:
+      repo: "https://github.com/vilhelmprytz/puppet-module-ssh.git"
+      ref:  "2c1076406465b0420e3e7b46083dd99fc79ccce2"
