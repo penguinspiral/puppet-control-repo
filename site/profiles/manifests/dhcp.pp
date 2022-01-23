@@ -6,6 +6,7 @@
 # @see
 #   https://tools.ietf.org/html/rfc2132
 #   https://tools.ietf.org/html/rfc3397
+#   man dhcpd.conf(5)
 #
 # @example
 #   include profiles::dhcp
