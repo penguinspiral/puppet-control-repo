@@ -38,6 +38,11 @@ describe 'profiles::dhcp', type: :class do
         content: %r{^ddns-update-style none;$},
       )
     }
+    it {
+      is_expected.to contain_concat_fragment('dhcp-conf-pxe').with(
+        content: %r{^# BEGIN PXE Section\n# END PXE Section$},
+      )
+    }
     it { is_expected.to compile }
   end
 
@@ -539,6 +544,96 @@ describe 'profiles::dhcp', type: :class do
 
         it { is_expected.to raise_error(Puppet::Error, %r{expects a Hash}) }
         it { is_expected.not_to compile }
+      end
+    end
+  end
+
+  context 'when ::pxeserver invalid' do
+    invalid = [123, true, ['seed.raft.com', 'pxe.raft.com']]
+    invalid.each do |pxeserver|
+      context "when ::pxeserver #{pxeserver}" do
+        let :params do
+          {
+            pxeserver: pxeserver,
+          }
+        end
+
+        it { is_expected.to raise_error(Puppet::Error, %r{expects a Stdlib::Host}) }
+        it { is_expected.not_to compile }
+      end
+    end
+  end
+
+  context 'when ::pxeserver valid (and defined) AND ::pxefilename undefined' do
+    valid = ['192.168.0.1', 'fe80::1e69:7aff:fe09:741f', 'seed.raft.com']
+    valid.each do |pxeserver|
+      context "when ::pxeserver #{pxeserver} and ::pxefilename is undef" do
+        let :params do
+          {
+            pxeserver:   pxeserver,
+            pxefilename: :undef,
+          }
+        end
+
+        it { is_expected.to raise_error(Puppet::Error, %r{\$pxeserver and \$pxefilename are required when enabling PXE}) }
+        it { is_expected.not_to compile }
+      end
+    end
+  end
+
+  context 'when ::pxefilename invalid' do
+    invalid = [123, true, 'enabled', 'tftp::/srv/tftp/script.sh']
+    invalid.each do |pxefilename|
+      context "when ::pxefilename #{pxefilename}" do
+        let :params do
+          {
+            pxefilename: pxefilename,
+          }
+        end
+
+        # Puppet's abstract data type 'Variant' lists undef when nested in a 'Optional' data type
+        it { is_expected.to raise_error(Puppet::Error, %r{expects a.* Stdlib::Absolutepath.* Stdlib::HTTPUrl}) }
+        it { is_expected.not_to compile }
+      end
+    end
+  end
+
+  context 'when ::pxefilename valid (and defined) AND ::pxeserver undefined' do
+    valid = ['http://seed.raft.com/script.ipxe', '/srv/tftp/script.ipxe']
+    valid.each do |pxefilename|
+      context "when ::pxefilename #{pxefilename} and ::pxefilename is undef" do
+        let :params do
+          {
+            pxeserver:   :undef,
+            pxefilename: pxefilename,
+          }
+        end
+
+        it { is_expected.to raise_error(Puppet::Error, %r{\$pxeserver and \$pxefilename are required when enabling PXE}) }
+        it { is_expected.not_to compile }
+      end
+    end
+  end
+
+  context 'when ::pxeserver valid (and defined) AND ::pxefilename valid (and defined)' do
+    valid_pxeserver   = ['192.168.0.1', 'fe80::1e69:7aff:fe09:741f', 'seed.raft.com']
+    valid_pxefilename = ['https://seed/script.ipxe', 'http://seed.raft.com/script.ipxe', '/srv/tftp/script.ipxe']
+    valid_pxeserver.zip(valid_pxefilename).each do |pxeserver, pxefilename|
+      context "when ::pxeserver #{pxeserver} and ::pxefilename #{pxefilename}" do
+        let :params do
+          {
+            pxeserver:   pxeserver,
+            pxefilename: pxefilename,
+          }
+        end
+
+        it {
+          is_expected.to contain_concat_fragment('dhcp-conf-pxe').with(
+            target: '/etc/dhcp/dhcpd.conf',
+            content: %r{filename "#{pxefilename}";\n.*filename "undionly.kpxe";\n.*filename "ipxe.efi";\n.*next-server "#{pxeserver}";\n}m,
+          )
+        }
+        it { is_expected.to compile }
       end
     end
   end
