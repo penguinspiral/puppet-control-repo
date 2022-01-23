@@ -233,6 +233,7 @@ Predominantly a wrapper around the 'puppet-dhcp' Forge module
 * **See also**
   * https://tools.ietf.org/html/rfc2132
     * https://tools.ietf.org/html/rfc3397
+man dhcpd.conf(5)
 
 #### Examples
 
@@ -296,7 +297,7 @@ Default value: `[]`
 
 ##### `ntpservers`
 
-Data type: `Array[Variant[Stdlib::Fqdn,Stdlib::IP::Address]]`
+Data type: `Array[Variant[Stdlib::Fqdn, Stdlib::IP::Address]]`
 
 Specify Network Time Protocol (NTP) server(s) (Option 4)
 Wrapper parameter: 'puppet-dhcp' module class parameter
@@ -366,6 +367,25 @@ Specify DHCP pool(s)/zone(s) attributes (e.g. subnets, gateway, etc)
 Wrapper parameter: 'puppet-dhcp' module class parameter
 
 Default value: `{}`
+
+##### `pxeserver`
+
+Data type: `Optional[Stdlib::Host]`
+
+Specify Trivial File Transfer Protocol (TFTP) server (Option 66)
+Utilises iPXE implementation of PXE for PCBIOS & UEFI support
+Ref: https://ipxe.org/
+
+Default value: ``undef``
+
+##### `pxefilename`
+
+Data type: `Optional[Variant[Stdlib::Absolutepath, Stdlib::HTTPUrl]]`
+
+Specify the chainloaded "Bootfile" to be loaded by PXE clients (Option 67)
+iPXE "Bootfile" script scoped to absolute path (TFTP) or HTTP(S) URL (HTTP)
+
+Default value: ``undef``
 
 ### `profiles::disk`
 

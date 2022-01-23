@@ -6,6 +6,7 @@
 # @see
 #   https://tools.ietf.org/html/rfc2132
 #   https://tools.ietf.org/html/rfc3397
+#   man dhcpd.conf(5)
 #
 # @example
 #   include profiles::dhcp
@@ -66,21 +67,42 @@
 #   Specify DHCP pool(s)/zone(s) attributes (e.g. subnets, gateway, etc)
 #   Wrapper parameter: 'puppet-dhcp' module class parameter
 #
+# @param pxeserver
+#   Specify Trivial File Transfer Protocol (TFTP) server (Option 66)
+#   Utilises iPXE implementation of PXE for PCBIOS & UEFI support
+#   Ref: https://ipxe.org/
+#
+# @param pxefilename
+#   Specify the chainloaded "Bootfile" to be loaded by PXE clients (Option 67)
+#   iPXE "Bootfile" script scoped to absolute path (TFTP) or HTTP(S) URL (HTTP)
+#
 class profiles::dhcp(
-  Stdlib::Ensure::Service                          $service_ensure       = 'stopped',
-  Array[String[1]]                                 $interfaces           = [],
-  Array[String[1]]                                 $dnsdomain            = [],
-  Array[Stdlib::IP::Address::V4]                   $nameservers          = [],
-  Array[String[1]]                                 $dnssearchdomains     = [],
-  Array[Variant[Stdlib::Fqdn,Stdlib::IP::Address]] $ntpservers           = [],
-  Optional[Stdlib::Absolutepath]                   $dnsupdatekey         = undef,
-  String[1]                                        $dnskeyname           = 'rndc-key',
-  Enum['allow', 'deny']                            $ddns_client_updates  = 'deny',
-  Enum['ad-hoc', 'interim', 'standard', 'none']    $ddns_update_style    = 'standard',
-  Enum['on', 'off']                                $ddns_update_static   = 'off',
-  Enum['on', 'off']                                $ddns_update_optimize = 'on',
-  Hash[String, Hash]                               $pools                = {},
+  Stdlib::Ensure::Service                                  $service_ensure       = 'stopped',
+  Array[String[1]]                                         $interfaces           = [],
+  Array[String[1]]                                         $dnsdomain            = [],
+  Array[Stdlib::IP::Address::V4]                           $nameservers          = [],
+  Array[String[1]]                                         $dnssearchdomains     = [],
+  Array[Variant[Stdlib::Fqdn, Stdlib::IP::Address]]        $ntpservers           = [],
+  Optional[Stdlib::Absolutepath]                           $dnsupdatekey         = undef,
+  String[1]                                                $dnskeyname           = 'rndc-key',
+  Enum['allow', 'deny']                                    $ddns_client_updates  = 'deny',
+  Enum['ad-hoc', 'interim', 'standard', 'none']            $ddns_update_style    = 'standard',
+  Enum['on', 'off']                                        $ddns_update_static   = 'off',
+  Enum['on', 'off']                                        $ddns_update_optimize = 'on',
+  Hash[String, Hash]                                       $pools                = {},
+  Optional[Stdlib::Host]                                   $pxeserver            = undef,
+  Optional[Variant[Stdlib::Absolutepath, Stdlib::HTTPUrl]] $pxefilename          = undef,
 ) {
+
+  if (!$pxeserver != !$pxefilename) {
+    fail('$pxeserver and $pxefilename are required when enabling PXE')
+  }
+
+  $dhcp_conf_pxe_content = epp('profiles/dhcp/dhcpd.pxe.epp', {
+    'pxeserver'   => $pxeserver,
+    'pxefilename' => $pxefilename,
+  })
+
   class { 'dhcp':
     service_ensure       => $service_ensure,
     interfaces           => $interfaces,
@@ -95,5 +117,6 @@ class profiles::dhcp(
     ddns_update_static   => $ddns_update_static,
     ddns_update_optimize => $ddns_update_optimize,
     pools                => $pools,
+    dhcp_conf_pxe        => $dhcp_conf_pxe_content,
   }
 }
