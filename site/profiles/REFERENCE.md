@@ -29,6 +29,9 @@ Performs filesystem creation and manages mount behaviours
 * [`profiles::dns`](#profilesdns): Manages ISC BIND DNS server (bind9) configuration/behaviour
 Responsible for zone allocation, recursion & forwarding, rndc keys, etc.
 Predominantly a wrapper around the 'theforeman-dns' Forge module
+* [`profiles::http`](#profileshttp): Manages Apache HTTP server configuration/behaviour
+Responsible for virtual hosts, Apache modules, load balancing, etc
+Predominantly a wrapper around the 'puppetlabs-apache' Forge module
 * [`profiles::network`](#profilesnetwork): Manages the node's network interface(s), static route(s), rule(s)
 Leverages the '/etc/network/interfaces' consumed by `ifup/ifdown`
 * [`profiles::ssh`](#profilesssh): Manages Open Secure SHell (OpenSSH) Client & Server configuration
@@ -562,6 +565,87 @@ Data type: `Hash[String, Data]`
 
 Specify additional generic/free-form options appended to 'options.conf'
 Wrapper parameter: 'theforeman-dns' module class parameter
+
+Default value: `{}`
+
+### `profiles::http`
+
+Manages Apache HTTP server configuration/behaviour
+Responsible for virtual hosts, Apache modules, load balancing, etc
+Predominantly a wrapper around the 'puppetlabs-apache' Forge module
+
+* **See also**
+  * man
+    * apache2(8)
+
+#### Examples
+
+##### 
+
+```puppet
+include profiles::http
+```
+
+#### Parameters
+
+The following parameters are available in the `profiles::http` class.
+
+##### `service_enable`
+
+Data type: `Boolean`
+
+Specify whether apache service starts during boot
+Wrapper parameter: 'puppetlabs-apache' module class parameter
+
+Default value: ``false``
+
+##### `service_ensure`
+
+Data type: `Stdlib::Ensure::Service`
+
+Specify the apache service state
+Wrapper parameter: 'puppetlabs-apache' module class parameter
+
+Default value: `'stopped'`
+
+##### `default_vhost`
+
+Data type: `Boolean`
+
+Specify whether to enable the 'puppetlabs-apache' default vhost configuration
+Apache HTTP server requires at least one virtual host to start
+Wrapper parameter: 'puppetlabs-apache' module class parameter
+
+Default value: ``false``
+
+##### `default_ssl_vhost`
+
+Data type: `Boolean`
+
+Specify whether to enable the 'puppetlabs-apache' default SSL vhost configuration
+Apache HTTP server requires at least one virtual host to start
+Wrapper parameter: 'puppetlabs-apache' module class parameter
+
+Default value: ``false``
+
+##### `root_directory_secured`
+
+Data type: `Boolean`
+
+Specify whether the default access policy is denied for all resources
+Enablement requires explicit rules for allowing access to additional resources
+Wrapper parameter: 'puppetlabs-apache' module class parameter
+
+Default value: ``true``
+
+##### `vhosts`
+
+Data type: `Hash`
+
+Specify Apache virtual host(s)
+Facilitates multiple virtual hosts instantiations via Hiera data definitions
+Ref: https://github.com/puppetlabs/puppetlabs-apache/blob/main/manifests/vhost.pp
+Wrapper parameter: 'puppetlabs-apache' ::vhosts subclass parameter
 
 Default value: `{}`
 
