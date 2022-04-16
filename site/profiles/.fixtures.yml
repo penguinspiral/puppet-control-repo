@@ -3,6 +3,9 @@
 ---
 fixtures:
   forge_modules:
+    apache:
+      repo: "puppetlabs-apache"
+      ref:  "7.0.0"
     apt:
       repo: "puppetlabs-apt"
       ref:  "8.1.0"
