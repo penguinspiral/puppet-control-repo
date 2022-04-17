@@ -7,7 +7,7 @@ profiles::apt::purge:
 
 profiles::apt::sources:
   'debian_buster_local':
-    comment: 'Complete, static, local Debian buster (10.0) mirror'
+    comment: 'Complete, static, local Debian buster (11.3) mirror'
     location: 'file:/media/cdrom/mirror/'
     repos: 'main contrib non-free'
 
@@ -38,9 +38,9 @@ profiles::dhcp::pools:
        - '192.168.0.3 192.168.0.254'
 
 profiles::disk::mounts:
-  '/dev/disk/by-label/Debian 11.2 amd64 1':
+  '/dev/disk/by-label/Debian 11.3 amd64 1':
     name: '/media/cdrom'
-    device: 'LABEL=Debian\04011.2\040amd64\0401'
+    device: 'LABEL=Debian\04011.3\040amd64\0401'
     ensure: mounted
     fstype: 'iso9660'
     options: 'ro,x-mount.mkdir'
