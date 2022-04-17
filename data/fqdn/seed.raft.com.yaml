@@ -7,7 +7,7 @@ profiles::apt::purge:
 
 profiles::apt::sources:
   'debian_buster_local':
-    comment: 'Complete, static, local Debian buster (10.0) mirror'
+    comment: 'Complete, static, local Debian buster (11.3) mirror'
     location: 'file:/media/cdrom/mirror/'
     repos: 'main contrib non-free'
 
