@@ -7,7 +7,7 @@ profiles::apt::purge:
 
 profiles::apt::sources:
   'debian_buster_local':
-    comment: 'Complete, static, local Debian buster (10.0) mirror'
+    comment: 'Complete, static, local Debian buster (11.3) mirror'
     location: 'file:/media/cdrom/mirror/'
     repos: 'main contrib non-free'
 
@@ -38,9 +38,9 @@ profiles::dhcp::pools:
        - '192.168.0.3 192.168.0.254'
 
 profiles::disk::mounts:
-  '/dev/disk/by-label/Debian 11.2 amd64 1':
+  '/dev/disk/by-label/Debian 11.3 amd64 1':
     name: '/media/cdrom'
-    device: 'LABEL=Debian\04011.2\040amd64\0401'
+    device: 'LABEL=Debian\04011.3\040amd64\0401'
     ensure: mounted
     fstype: 'iso9660'
     options: 'ro,x-mount.mkdir'
@@ -91,6 +91,25 @@ profiles::dns::zones:
         action: 'grant'
         matchtype: 'zonesub'
         rr: 'PTR TXT DHCID'
+
+profiles::http::service_enable: true
+profiles::http::service_ensure: 'running'
+profiles::http::vhosts:
+  "%{facts.networking.fqdn}":
+    ip: "%{lookup('profiles::network::interfaces.eno1.ipaddress')}"
+    port: 80
+    docroot: false
+    aliases:
+      - {
+          alias: '/mirror',
+          path:  "%{lookup('profiles::disk::mounts.\"/dev/disk/by-label/Debian 11.2 amd64 1\".name')}/mirror",
+        }
+    directories:
+      - {
+          path:           "%{lookup('profiles::disk::mounts.\"/dev/disk/by-label/Debian 11.2 amd64 1\".name')}/mirror",
+          options:        ['Indexes'],
+          allow_override: ['None'],
+        }
 
 profiles::network::interfaces:
   'eno1':

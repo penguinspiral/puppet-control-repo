@@ -1,12 +1,16 @@
 {
   "name": "penguinspiral-profiles",
-  "version": "0.8.2",
+  "version": "0.8.5",
   "author": "grindon",
   "summary": "Roles & Profiles pattern",
   "license": "GPL-3.0-or-later",
   "source": "https://github.com/penguinspiral/puppet-control-repo",
   "issues_url": "https://github.com/penguinspiral/puppet-control-repo/issues",
   "dependencies": [
+    {
+      "name": "puppetlabs/apache",
+      "version_requirement": "7.0.0"
+    },
     {
       "name": "puppetlabs/apt",
       "version_requirement": "8.1.0"

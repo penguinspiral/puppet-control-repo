@@ -8,3 +8,4 @@ classes:
   - profiles::dhcp
   - profiles::ssh
   - profiles::tftp
+  - profiles::http
