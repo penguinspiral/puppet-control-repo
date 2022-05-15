@@ -12,7 +12,6 @@ mod 'puppetlabs-mount_core',   '1.0.4'
 mod 'puppetlabs-sshkeys_core', '2.2.0'
 mod 'puppetlabs-stdlib',       '8.0.0'
 mod 'puppetlabs-tftp',         '1.0.0'
-mod 'puppetlabs-translate',    '2.2.0'
 
 
 #
