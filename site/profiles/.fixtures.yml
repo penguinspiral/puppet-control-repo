@@ -48,9 +48,6 @@ fixtures:
     tftp:
       repo: "puppetlabs-tftp"
       ref:  "1.0.0"
-    translate:
-      repo: "puppetlabs-translate"
-      ref:  "2.2.0"
   repositories:
     ssh:
       repo: "https://github.com/vilhelmprytz/puppet-module-ssh.git"
