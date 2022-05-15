@@ -44,7 +44,7 @@ fixtures:
       ref:  "2.2.0"
     stdlib:
       repo: "puppetlabs-stdlib"
-      ref:  "8.0.0"
+      ref:  "8.1.0"
     tftp:
       repo: "puppetlabs-tftp"
       ref:  "1.0.0"
