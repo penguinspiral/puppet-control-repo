@@ -23,7 +23,7 @@ fixtures:
       ref:  "9.0.0"
     firewall:
       repo: "puppetlabs-firewall"
-      ref:  "2.8.0"
+      ref:  "3.4.0"
     hocon_setting:
       repo: "puppetlabs-hocon"
       ref:  "1.1.0"
