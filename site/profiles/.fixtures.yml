@@ -17,7 +17,7 @@ fixtures:
       ref:  "6.2.0"
     dhcp:
       repo: "puppet-dhcp"
-      ref:  "4.0.1"
+      ref:  "5.0.0"
     dns:
       repo: "theforeman-dns"
       ref:  "9.0.0"
