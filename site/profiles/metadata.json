@@ -52,10 +52,6 @@
       "version_requirement": "8.0.0"
     },
     {
-      "name": "puppetlabs/translate",
-      "version_requirement": "2.2.0"
-    },
-    {
       "name": "example42/network",
       "version_requirement": "3.6.0"
     },
