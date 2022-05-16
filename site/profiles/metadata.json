@@ -45,7 +45,7 @@
     },
     {
       "name": "puppetlabs/sshkeys_core",
-      "version_requirement": "2.2.0"
+      "version_requirement": "2.3.0"
     },
     {
       "name": "puppetlabs/stdlib",
