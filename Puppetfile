@@ -18,7 +18,7 @@ mod 'puppetlabs-translate',    '2.2.0'
 #
 # Approved
 #
-mod 'example42-network', '3.6.0'
+mod 'example42-network', '3.6.1'
 mod 'ghoneycutt-ssh',
   :git    => 'https://github.com/vilhelmprytz/puppet-module-ssh.git',
   :commit => '2c1076406465b0420e3e7b46083dd99fc79ccce2'
