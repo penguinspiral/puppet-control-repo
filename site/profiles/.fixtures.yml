@@ -14,7 +14,7 @@ fixtures:
       ref:  "1.10.0"
     concat:
       repo: "puppetlabs-concat"
-      ref:  "6.2.0"
+      ref:  "7.1.1"
     dhcp:
       repo: "puppet-dhcp"
       ref:  "4.0.1"

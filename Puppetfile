@@ -3,7 +3,7 @@
 #
 mod 'puppetlabs-apache',       '7.0.0'
 mod 'puppetlabs-apt',          '8.3.0'
-mod 'puppetlabs-concat',       '6.2.0'
+mod 'puppetlabs-concat',       '7.1.1'
 mod 'puppetlabs-firewall',     '2.8.0'
 mod 'puppetlabs-hocon',        '1.1.0'
 mod 'puppetlabs-inifile',      '5.1.0'
