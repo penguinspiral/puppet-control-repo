@@ -20,7 +20,7 @@ fixtures:
       ref:  "5.0.0"
     dns:
       repo: "theforeman-dns"
-      ref:  "9.0.0"
+      ref:  "9.3.0"
     firewall:
       repo: "puppetlabs-firewall"
       ref:  "2.8.0"
