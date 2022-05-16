@@ -8,49 +8,46 @@ fixtures:
       ref:  "7.0.0"
     apt:
       repo: "puppetlabs-apt"
-      ref:  "8.1.0"
+      ref:  "8.3.0"
     common:
       repo: "ghoneycutt-common"
       ref:  "1.10.0"
     concat:
       repo: "puppetlabs-concat"
-      ref:  "6.2.0"
+      ref:  "7.1.1"
     dhcp:
       repo: "puppet-dhcp"
-      ref:  "4.0.1"
+      ref:  "5.0.0"
     dns:
       repo: "theforeman-dns"
-      ref:  "9.0.0"
+      ref:  "9.3.0"
     firewall:
       repo: "puppetlabs-firewall"
-      ref:  "2.8.0"
+      ref:  "3.4.0"
     hocon_setting:
       repo: "puppetlabs-hocon"
       ref:  "1.1.0"
     ini_setting:
       repo: "puppetlabs-inifile"
-      ref:  "5.1.0"
+      ref:  "5.2.0"
     network:
       repo: "example42-network"
-      ref:  "3.6.0"
+      ref:  "3.6.1"
     lvm:
       repo: "puppetlabs-lvm"
       ref:  "1.4.0"
     mount_core:
       repo: "puppetlabs-mount_core"
-      ref:  "1.0.4"
+      ref:  "1.1.0"
     sshkeys_core:
       repo: "puppetlabs-sshkeys_core"
-      ref:  "2.2.0"
+      ref:  "2.3.0"
     stdlib:
       repo: "puppetlabs-stdlib"
-      ref:  "8.0.0"
+      ref:  "8.1.0"
     tftp:
       repo: "puppetlabs-tftp"
       ref:  "1.0.0"
-    translate:
-      repo: "puppetlabs-translate"
-      ref:  "2.2.0"
   repositories:
     ssh:
       repo: "https://github.com/vilhelmprytz/puppet-module-ssh.git"

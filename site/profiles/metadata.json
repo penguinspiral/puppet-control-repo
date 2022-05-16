@@ -1,6 +1,6 @@
 {
   "name": "penguinspiral-profiles",
-  "version": "0.8.5",
+  "version": "0.8.6",
   "author": "grindon",
   "summary": "Roles & Profiles pattern",
   "license": "GPL-3.0-or-later",
@@ -13,27 +13,27 @@
     },
     {
       "name": "puppetlabs/apt",
-      "version_requirement": "8.1.0"
+      "version_requirement": "8.3.0"
     },
     {
       "name": "puppetlabs/concat",
-      "version_requirement": "6.2.0"
+      "version_requirement": "7.1.1"
     },
     {
       "name": "puppet/dhcp",
-      "version_requirement": "4.0.1"
+      "version_requirement": "5.0.0"
     },
     {
       "name": "puppetlabs/firewall",
-      "version_requirement": "2.8.0"
+      "version_requirement": "3.4.0"
     },
     {
       "name": "puppetlabs/hocon",
-      "version_requirement": "1.1.1"
+      "version_requirement": "1.1.0"
     },
     {
       "name": "puppetlabs/inifile",
-      "version_requirement": "5.1.0"
+      "version_requirement": "5.2.0"
     },
     {
       "name": "puppetlabs/lvm",
@@ -41,23 +41,19 @@
     },
     {
       "name": "puppetlabs/mount_core",
-      "version_requirement": "1.0.4"
+      "version_requirement": "1.1.0"
     },
     {
       "name": "puppetlabs/sshkeys_core",
-      "version_requirement": "2.2.0"
+      "version_requirement": "2.3.0"
     },
     {
       "name": "puppetlabs/stdlib",
-      "version_requirement": "8.0.0"
-    },
-    {
-      "name": "puppetlabs/translate",
-      "version_requirement": "2.2.0"
+      "version_requirement": "8.1.0"
     },
     {
       "name": "example42/network",
-      "version_requirement": "3.6.0"
+      "version_requirement": "3.6.1"
     },
     {
       "name": "ghoneycutt/common",
@@ -69,7 +65,7 @@
     },
     {
       "name": "theforeman/dns",
-      "version_requirement": "9.0.0"
+      "version_requirement": "9.3.0"
     },
     {
       "name": "puppetlabs/tftp",
@@ -90,7 +86,7 @@
       "version_requirement": ">= 7.0.0 < 8.0.0"
     }
   ],
-  "pdk-version": "2.3.0",
-  "template-url": "pdk-default#2.3.0",
-  "template-ref": "tags/2.3.0-0-g8aaceff"
+  "pdk-version": "2.4.0",
+  "template-url": "pdk-default#2.4.0",
+  "template-ref": "tags/2.4.0-0-gfa6b6d2"
 }
