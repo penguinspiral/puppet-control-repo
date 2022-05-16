@@ -41,7 +41,7 @@ fixtures:
       ref:  "1.0.4"
     sshkeys_core:
       repo: "puppetlabs-sshkeys_core"
-      ref:  "2.2.0"
+      ref:  "2.3.0"
     stdlib:
       repo: "puppetlabs-stdlib"
       ref:  "8.0.0"
