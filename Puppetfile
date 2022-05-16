@@ -10,7 +10,7 @@ mod 'puppetlabs-inifile',      '5.2.0'
 mod 'puppetlabs-lvm',          '1.4.0'
 mod 'puppetlabs-mount_core',   '1.1.0'
 mod 'puppetlabs-sshkeys_core', '2.3.0'
-mod 'puppetlabs-stdlib',       '8.0.0'
+mod 'puppetlabs-stdlib',       '8.1.0'
 mod 'puppetlabs-tftp',         '1.0.0'
 
 
