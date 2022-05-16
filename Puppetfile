@@ -34,4 +34,4 @@ mod 'ghoneycutt-ssh',
 #
 mod 'ghoneycutt-common', '1.10.0'
 mod 'puppet-dhcp',       '4.0.1'
-mod 'theforeman-dns',    '9.0.0'
+mod 'theforeman-dns',    '9.3.0'
