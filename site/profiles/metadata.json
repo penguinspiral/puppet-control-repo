@@ -33,7 +33,7 @@
     },
     {
       "name": "puppetlabs/inifile",
-      "version_requirement": "5.1.0"
+      "version_requirement": "5.2.0"
     },
     {
       "name": "puppetlabs/lvm",
@@ -50,10 +50,6 @@
     {
       "name": "puppetlabs/stdlib",
       "version_requirement": "8.0.0"
-    },
-    {
-      "name": "puppetlabs/translate",
-      "version_requirement": "2.2.0"
     },
     {
       "name": "example42/network",

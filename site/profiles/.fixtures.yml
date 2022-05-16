@@ -29,7 +29,7 @@ fixtures:
       ref:  "1.1.0"
     ini_setting:
       repo: "puppetlabs-inifile"
-      ref:  "5.1.0"
+      ref:  "5.2.0"
     network:
       repo: "example42-network"
       ref:  "3.6.0"
@@ -48,9 +48,6 @@ fixtures:
     tftp:
       repo: "puppetlabs-tftp"
       ref:  "1.0.0"
-    translate:
-      repo: "puppetlabs-translate"
-      ref:  "2.2.0"
   repositories:
     ssh:
       repo: "https://github.com/vilhelmprytz/puppet-module-ssh.git"
