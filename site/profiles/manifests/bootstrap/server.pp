@@ -19,7 +19,7 @@
 #   Specify the absolute path to the r10k configuration file
 #   Tracked file within the penguinspiral/puppet-r10k Git repository
 #
-class profiles::bootstrap::node::server(
+class profiles::bootstrap::server(
   Stdlib::AbsolutePath $puppet_config           = $settings::config,
   Stdlib::AbsolutePath $puppetserver_web_config = '/etc/puppetlabs/puppetserver/conf.d/webserver.conf',
   Stdlib::AbsolutePath $r10k_binary             = '/usr/bin/r10k',
