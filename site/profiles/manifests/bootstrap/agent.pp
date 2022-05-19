@@ -22,6 +22,8 @@ class profiles::bootstrap::agent(
   Stdlib::Host         $puppetserver  = 'localhost',
 ) {
 
+  include profiles::apt
+
   facter::fact { 'role':
     value => $role,
   }
