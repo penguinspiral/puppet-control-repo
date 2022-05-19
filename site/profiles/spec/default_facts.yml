@@ -18,6 +18,7 @@ os:
     major: '11'
   distro:
     codename: 'bullseye'
+role: 'seed'
 ssh_version: 'OpenSSH_7.9p1'
 ssh_version_numeric: '7.9'
 sshrsakey: 'AAAAB3NzaC1yc2EAAAADAQABAAABAQCvgu7p7cM17pL41bfJu+9VbH5t+APGnqxHQRdG2qlAr2TTKzlCxVslau7a5tay2lGJ757dNE6mrGVGwVDMorTADU9eqlA2ajwVTQpDtmblUSVzXDutKop/KPyDCnh8I+1mIgGp4jm1Fa0AP0LqJziY8WtS9waNphwMFjw+xCAGxI+a8dt49QrtmGonMouxMyRRB5pjzKjAPfVazsK4mCtWGvHX5m0Q+PCjd0DZPRflD1OuBvTG7KFoDVGxwDJqOIjAZ4vBkF/wO7wpsoKS9K2uNEhPEysR4JFbZbCyVgVXp6vint11025YOTjSHldQSZcEwbfgZOAfl09Qb8Um03ET'
