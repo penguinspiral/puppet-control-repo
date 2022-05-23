@@ -12,15 +12,12 @@ Predominantly a wrapper around the 'puppetlabs-apt' Forge module
 * [`profiles::bootstrap`](#profilesbootstrap): Performs minimal alteration required for a full Puppet run at first boot
 This profile operates within a "limited" Debian Preseed chrooted environment
 Consequently extending this profile and its subclasses is discouraged
-* [`profiles::bootstrap::node`](#profilesbootstrapnode): Specifies how a targeted node's Puppet agent obtains its catalog
-Supports both a client-only and standalone (a.k.a. serverless) configuration
-* [`profiles::bootstrap::node::agent`](#profilesbootstrapnodeagent): Specifies the Puppet agent's targeted Puppetserver for obtain its catalog
+* [`profiles::bootstrap::agent`](#profilesbootstrapagent): Populates the bootstrapped node's Puppet "role" as a local fact
+Specifies the Puppet agent's targeted Puppetserver for obtaining its catalog
 Configures the Puppet agent to run at startup via systemd
-* [`profiles::bootstrap::node::server`](#profilesbootstrapnodeserver): Configures a Puppetserver to support a "serverless" Puppet deployment
+* [`profiles::bootstrap::server`](#profilesbootstrapserver): Configures a Puppetserver to support a "serverless" Puppet deployment
 Binds the Puppetserver daemon to localhost for isolated catalog generation
 Automatically generated CA environment includes "localhost" as a X509v3 SAN
-* [`profiles::bootstrap::seed`](#profilesbootstrapseed): Unique, singular "seed" node configuration
-Manually specifies the static "seed" role fact
 * [`profiles::dhcp`](#profilesdhcp): Manages isc-dhcp-server configuration/behaviour
 Responsible for subnet allocation, host reservations, (i)PXE URIs, etc
 Predominantly a wrapper around the 'puppet-dhcp' Forge module
@@ -100,33 +97,6 @@ include profiles::bootstrap
 
 The following parameters are available in the `profiles::bootstrap` class:
 
-* [`seed`](#seed)
-
-##### <a name="seed"></a>`seed`
-
-Data type: `Boolean`
-
-Specifies additional bootstrapping configuration for the given "seed" node
-
-Default value: ``false``
-
-### <a name="profilesbootstrapnode"></a>`profiles::bootstrap::node`
-
-Specifies how a targeted node's Puppet agent obtains its catalog
-Supports both a client-only and standalone (a.k.a. serverless) configuration
-
-#### Examples
-
-##### 
-
-```puppet
-include profiles::bootstrap
-```
-
-#### Parameters
-
-The following parameters are available in the `profiles::bootstrap::node` class:
-
 * [`serverless`](#serverless)
 
 ##### <a name="serverless"></a>`serverless`
@@ -137,9 +107,10 @@ Installs and configures a locally hosted Puppetserver for catalog generation
 
 Default value: ``true``
 
-### <a name="profilesbootstrapnodeagent"></a>`profiles::bootstrap::node::agent`
+### <a name="profilesbootstrapagent"></a>`profiles::bootstrap::agent`
 
-Specifies the Puppet agent's targeted Puppetserver for obtain its catalog
+Populates the bootstrapped node's Puppet "role" as a local fact
+Specifies the Puppet agent's targeted Puppetserver for obtaining its catalog
 Configures the Puppet agent to run at startup via systemd
 
 #### Examples
@@ -152,16 +123,26 @@ include profiles::bootstrap
 
 #### Parameters
 
-The following parameters are available in the `profiles::bootstrap::node::agent` class:
+The following parameters are available in the `profiles::bootstrap::agent` class:
 
+* [`role`](#role)
 * [`puppet_config`](#puppet_config)
 * [`puppetserver`](#puppetserver)
+
+##### <a name="role"></a>`role`
+
+Data type: `String[1]`
+
+Specify the node's "role" (Roles & Profiles pattern)
+Specified as a kernel command-line parameter and sourced via env var: FACTER_ROLE
+
+Default value: `$facts['role']`
 
 ##### <a name="puppet_config"></a>`puppet_config`
 
 Data type: `Stdlib::AbsolutePath`
 
-Specify the absolute path to the global Puppet configuration file
+Specify the absolute path of the global Puppet configuration file
 
 Default value: `$settings::config`
 
@@ -173,7 +154,7 @@ Specify the hostname of the targeted Puppetserver
 
 Default value: `'localhost'`
 
-### <a name="profilesbootstrapnodeserver"></a>`profiles::bootstrap::node::server`
+### <a name="profilesbootstrapserver"></a>`profiles::bootstrap::server`
 
 Configures a Puppetserver to support a "serverless" Puppet deployment
 Binds the Puppetserver daemon to localhost for isolated catalog generation
@@ -189,7 +170,7 @@ include profiles::bootstrap
 
 #### Parameters
 
-The following parameters are available in the `profiles::bootstrap::node::server` class:
+The following parameters are available in the `profiles::bootstrap::server` class:
 
 * [`puppet_config`](#puppet_config)
 * [`puppetserver_web_config`](#puppetserver_web_config)
@@ -228,19 +209,6 @@ Specify the absolute path to the r10k configuration file
 Tracked file within the penguinspiral/puppet-r10k Git repository
 
 Default value: `'/etc/puppetlabs/r10k/r10k.yaml'`
-
-### <a name="profilesbootstrapseed"></a>`profiles::bootstrap::seed`
-
-Unique, singular "seed" node configuration
-Manually specifies the static "seed" role fact
-
-#### Examples
-
-##### 
-
-```puppet
-include profiles::bootstrap
-```
 
 ### <a name="profilesdhcp"></a>`profiles::dhcp`
 
