@@ -88,6 +88,7 @@ describe 'profiles::apt', type: :class do
         recurse: true,
       )
     }
+    it { is_expected.to have_package_resource_count(0) }
     it { is_expected.to compile }
   end
 
