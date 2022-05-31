@@ -101,12 +101,12 @@ profiles::http::vhosts:
     docroot: false
     aliases:
       - {
-          path:  "%{lookup('profiles::disk::mounts.\"/dev/disk/by-label/Debian 11.2 amd64 1\".name')}/mirror",
           alias: '/mirror/debian',
+          path:  "%{lookup('profiles::disk::mounts.\"/dev/disk/by-label/Debian 11.3 amd64 1\".name')}/mirror",
         }
     directories:
       - {
-          path:           "%{lookup('profiles::disk::mounts.\"/dev/disk/by-label/Debian 11.2 amd64 1\".name')}/mirror",
+          path:           "%{lookup('profiles::disk::mounts.\"/dev/disk/by-label/Debian 11.3 amd64 1\".name')}/mirror",
           options:        ['Indexes'],
           allow_override: ['None'],
         }
