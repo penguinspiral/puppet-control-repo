@@ -101,8 +101,8 @@ profiles::http::vhosts:
     docroot: false
     aliases:
       - {
-          alias: '/mirror',
           path:  "%{lookup('profiles::disk::mounts.\"/dev/disk/by-label/Debian 11.2 amd64 1\".name')}/mirror",
+          alias: '/mirror/debian',
         }
     directories:
       - {
