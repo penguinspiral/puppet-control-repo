@@ -11,8 +11,6 @@ profiles::apt::sources:
     location: 'file:/media/cdrom/mirror/'
     repos: 'main contrib non-free'
 
-profiles::bootstrap::seed: true
-
 profiles::dhcp::service_ensure: 'running'
 profiles::dhcp::interfaces:
   - "%{facts.networking.primary}"
