@@ -110,6 +110,10 @@ profiles::http::vhosts:
          alias: '/mirror/puppetlabs',
          path:  "%{lookup('profiles::disk::mounts.\"/dev/disk/by-label/Debian 11.3 amd64 1\".name')}/extra/mirror/puppetlabs/bullseye",
         }
+      - {
+          alias: '/mirror/gpg.d',
+          path:  "%{lookup('profiles::disk::mounts.\"/dev/disk/by-label/Debian 11.3 amd64 1\".name')}/extra/mirror/gpg.d",
+        }
     directories:
       - {
           path:           "%{lookup('profiles::disk::mounts.\"/dev/disk/by-label/Debian 11.3 amd64 1\".name')}/mirror",
@@ -118,6 +122,11 @@ profiles::http::vhosts:
         }
       - {
           path:           "%{lookup('profiles::disk::mounts.\"/dev/disk/by-label/Debian 11.3 amd64 1\".name')}/extra/mirror/puppetlabs/bullseye",
+          options:        ['Indexes'],
+          allow_override: ['None'],
+        }
+      - {
+          path:           "%{lookup('profiles::disk::mounts.\"/dev/disk/by-label/Debian 11.3 amd64 1\".name')}/extra/mirror/gpg.d",
           options:        ['Indexes'],
           allow_override: ['None'],
         }
