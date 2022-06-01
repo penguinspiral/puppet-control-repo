@@ -2,7 +2,9 @@
 # Supported
 #
 mod 'puppetlabs-apache',       '7.0.0'
-mod 'puppetlabs-apt',          '8.3.0'
+mod 'puppetlabs-apt',
+  :git    => 'https://github.com/puppetlabs/puppetlabs-apt.git',
+  :commit => 'dbf886131699bd1a2df3a1c6ce4ec583a1649d2f'
 mod 'puppetlabs-concat',       '7.1.1'
 mod 'puppetlabs-firewall',     '3.4.0'
 mod 'puppetlabs-hocon',        '1.1.0'
