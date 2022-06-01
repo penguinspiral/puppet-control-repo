@@ -10,6 +10,10 @@ profiles::apt::sources:
     comment: 'Complete, static, local Debian buster (11.3) mirror'
     location: 'file:/media/cdrom/mirror/'
     repos: 'main contrib non-free'
+  'puppetlabs_local':
+    comment: 'Puppetlabs 7.X Debian GNU/Linux bullseye repository'
+    location: 'file:/media/cdrom/extra/mirror/puppetlabs/bullseye/'
+    repos: 'bullseye puppet7'
 
 profiles::dhcp::service_ensure: 'running'
 profiles::dhcp::interfaces:
