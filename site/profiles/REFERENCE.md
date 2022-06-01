@@ -12,15 +12,12 @@ Predominantly a wrapper around the 'puppetlabs-apt' Forge module
 * [`profiles::bootstrap`](#profilesbootstrap): Performs minimal alteration required for a full Puppet run at first boot
 This profile operates within a "limited" Debian Preseed chrooted environment
 Consequently extending this profile and its subclasses is discouraged
-* [`profiles::bootstrap::node`](#profilesbootstrapnode): Specifies how a targeted node's Puppet agent obtains its catalog
-Supports both a client-only and standalone (a.k.a. serverless) configuration
-* [`profiles::bootstrap::node::agent`](#profilesbootstrapnodeagent): Specifies the Puppet agent's targeted Puppetserver for obtain its catalog
+* [`profiles::bootstrap::agent`](#profilesbootstrapagent): Populates the bootstrapped node's Puppet "role" as a local fact
+Specifies the Puppet agent's targeted Puppetserver for obtaining its catalog
 Configures the Puppet agent to run at startup via systemd
-* [`profiles::bootstrap::node::server`](#profilesbootstrapnodeserver): Configures a Puppetserver to support a "serverless" Puppet deployment
+* [`profiles::bootstrap::server`](#profilesbootstrapserver): Configures a Puppetserver to support a "serverless" Puppet deployment
 Binds the Puppetserver daemon to localhost for isolated catalog generation
 Automatically generated CA environment includes "localhost" as a X509v3 SAN
-* [`profiles::bootstrap::seed`](#profilesbootstrapseed): Unique, singular "seed" node configuration
-Manually specifies the static "seed" role fact
 * [`profiles::dhcp`](#profilesdhcp): Manages isc-dhcp-server configuration/behaviour
 Responsible for subnet allocation, host reservations, (i)PXE URIs, etc
 Predominantly a wrapper around the 'puppet-dhcp' Forge module
@@ -43,7 +40,7 @@ Predominantly a wrapper around the 'puppetlabs-tftp' Forge module
 
 ## Classes
 
-### `profiles::apt`
+### <a name="profilesapt"></a>`profiles::apt`
 
 Manages Debian's Advanced Package Tool (APT) configuration/behaviour
 Responsible for repository sources, package pins, repository GPG keys, etc
@@ -59,9 +56,12 @@ include profiles::apt
 
 #### Parameters
 
-The following parameters are available in the `profiles::apt` class.
+The following parameters are available in the `profiles::apt` class:
 
-##### `purge`
+* [`purge`](#purge)
+* [`sources`](#sources)
+
+##### <a name="purge"></a>`purge`
 
 Data type: `Hash`
 
@@ -70,7 +70,7 @@ Wrapper parameter: 'puppetlabs-apt' module class parameter
 
 Default value: `{}`
 
-##### `sources`
+##### <a name="sources"></a>`sources`
 
 Data type: `Hash`
 
@@ -79,7 +79,7 @@ Wrapper parameter: 'puppetlabs-apt' module class parameter
 
 Default value: `{}`
 
-### `profiles::bootstrap`
+### <a name="profilesbootstrap"></a>`profiles::bootstrap`
 
 Performs minimal alteration required for a full Puppet run at first boot
 This profile operates within a "limited" Debian Preseed chrooted environment
@@ -95,34 +95,11 @@ include profiles::bootstrap
 
 #### Parameters
 
-The following parameters are available in the `profiles::bootstrap` class.
+The following parameters are available in the `profiles::bootstrap` class:
 
-##### `seed`
+* [`serverless`](#serverless)
 
-Data type: `Boolean`
-
-Specifies additional bootstrapping configuration for the given "seed" node
-
-Default value: ``false``
-
-### `profiles::bootstrap::node`
-
-Specifies how a targeted node's Puppet agent obtains its catalog
-Supports both a client-only and standalone (a.k.a. serverless) configuration
-
-#### Examples
-
-##### 
-
-```puppet
-include profiles::bootstrap
-```
-
-#### Parameters
-
-The following parameters are available in the `profiles::bootstrap::node` class.
-
-##### `serverless`
+##### <a name="serverless"></a>`serverless`
 
 Data type: `Boolean`
 
@@ -130,9 +107,10 @@ Installs and configures a locally hosted Puppetserver for catalog generation
 
 Default value: ``true``
 
-### `profiles::bootstrap::node::agent`
+### <a name="profilesbootstrapagent"></a>`profiles::bootstrap::agent`
 
-Specifies the Puppet agent's targeted Puppetserver for obtain its catalog
+Populates the bootstrapped node's Puppet "role" as a local fact
+Specifies the Puppet agent's targeted Puppetserver for obtaining its catalog
 Configures the Puppet agent to run at startup via systemd
 
 #### Examples
@@ -145,17 +123,30 @@ include profiles::bootstrap
 
 #### Parameters
 
-The following parameters are available in the `profiles::bootstrap::node::agent` class.
+The following parameters are available in the `profiles::bootstrap::agent` class:
 
-##### `puppet_config`
+* [`role`](#role)
+* [`puppet_config`](#puppet_config)
+* [`puppetserver`](#puppetserver)
+
+##### <a name="role"></a>`role`
+
+Data type: `String[1]`
+
+Specify the node's "role" (Roles & Profiles pattern)
+Specified as a kernel command-line parameter and sourced via env var: FACTER_ROLE
+
+Default value: `$facts['role']`
+
+##### <a name="puppet_config"></a>`puppet_config`
 
 Data type: `Stdlib::AbsolutePath`
 
-Specify the absolute path to the global Puppet configuration file
+Specify the absolute path of the global Puppet configuration file
 
 Default value: `$settings::config`
 
-##### `puppetserver`
+##### <a name="puppetserver"></a>`puppetserver`
 
 Data type: `Stdlib::Host`
 
@@ -163,7 +154,7 @@ Specify the hostname of the targeted Puppetserver
 
 Default value: `'localhost'`
 
-### `profiles::bootstrap::node::server`
+### <a name="profilesbootstrapserver"></a>`profiles::bootstrap::server`
 
 Configures a Puppetserver to support a "serverless" Puppet deployment
 Binds the Puppetserver daemon to localhost for isolated catalog generation
@@ -179,9 +170,14 @@ include profiles::bootstrap
 
 #### Parameters
 
-The following parameters are available in the `profiles::bootstrap::node::server` class.
+The following parameters are available in the `profiles::bootstrap::server` class:
 
-##### `puppet_config`
+* [`puppet_config`](#puppet_config)
+* [`puppetserver_web_config`](#puppetserver_web_config)
+* [`r10k_binary`](#r10k_binary)
+* [`r10k_config`](#r10k_config)
+
+##### <a name="puppet_config"></a>`puppet_config`
 
 Data type: `Stdlib::AbsolutePath`
 
@@ -189,7 +185,7 @@ Specify the absolute path to the global Puppet configuration file
 
 Default value: `$settings::config`
 
-##### `puppetserver_web_config`
+##### <a name="puppetserver_web_config"></a>`puppetserver_web_config`
 
 Data type: `Stdlib::AbsolutePath`
 
@@ -197,7 +193,7 @@ Specify the absolute path to the Puppetserver Webserver configuration file
 
 Default value: `'/etc/puppetlabs/puppetserver/conf.d/webserver.conf'`
 
-##### `r10k_binary`
+##### <a name="r10k_binary"></a>`r10k_binary`
 
 Data type: `Stdlib::AbsolutePath`
 
@@ -205,7 +201,7 @@ Specify the absolute path to the r10k binary
 
 Default value: `'/usr/bin/r10k'`
 
-##### `r10k_config`
+##### <a name="r10k_config"></a>`r10k_config`
 
 Data type: `Stdlib::AbsolutePath`
 
@@ -214,20 +210,7 @@ Tracked file within the penguinspiral/puppet-r10k Git repository
 
 Default value: `'/etc/puppetlabs/r10k/r10k.yaml'`
 
-### `profiles::bootstrap::seed`
-
-Unique, singular "seed" node configuration
-Manually specifies the static "seed" role fact
-
-#### Examples
-
-##### 
-
-```puppet
-include profiles::bootstrap
-```
-
-### `profiles::dhcp`
+### <a name="profilesdhcp"></a>`profiles::dhcp`
 
 Manages isc-dhcp-server configuration/behaviour
 Responsible for subnet allocation, host reservations, (i)PXE URIs, etc
@@ -248,9 +231,25 @@ include profiles::dhcp
 
 #### Parameters
 
-The following parameters are available in the `profiles::dhcp` class.
+The following parameters are available in the `profiles::dhcp` class:
 
-##### `service_ensure`
+* [`service_ensure`](#service_ensure)
+* [`interfaces`](#interfaces)
+* [`dnsdomain`](#dnsdomain)
+* [`nameservers`](#nameservers)
+* [`dnssearchdomains`](#dnssearchdomains)
+* [`ntpservers`](#ntpservers)
+* [`dnsupdatekey`](#dnsupdatekey)
+* [`dnskeyname`](#dnskeyname)
+* [`ddns_client_updates`](#ddns_client_updates)
+* [`ddns_update_style`](#ddns_update_style)
+* [`ddns_update_static`](#ddns_update_static)
+* [`ddns_update_optimize`](#ddns_update_optimize)
+* [`pools`](#pools)
+* [`pxeserver`](#pxeserver)
+* [`pxefilename`](#pxefilename)
+
+##### <a name="service_ensure"></a>`service_ensure`
 
 Data type: `Stdlib::Ensure::Service`
 
@@ -259,7 +258,7 @@ Wrapper parameter: 'puppet-dhcp' module class parameter
 
 Default value: `'stopped'`
 
-##### `interfaces`
+##### <a name="interfaces"></a>`interfaces`
 
 Data type: `Array[String[1]]`
 
@@ -268,7 +267,7 @@ Wrapper parameter: 'puppet-dhcp' module class parameter
 
 Default value: `[]`
 
-##### `dnsdomain`
+##### <a name="dnsdomain"></a>`dnsdomain`
 
 Data type: `Array[String[1]]`
 
@@ -279,7 +278,7 @@ Wrapper parameter: 'puppet-dhcp' module class parameter
 
 Default value: `[]`
 
-##### `nameservers`
+##### <a name="nameservers"></a>`nameservers`
 
 Data type: `Array[Stdlib::IP::Address::V4]`
 
@@ -289,7 +288,7 @@ Wrapper parameter: 'puppet-dhcp' module class parameter
 
 Default value: `[]`
 
-##### `dnssearchdomains`
+##### <a name="dnssearchdomains"></a>`dnssearchdomains`
 
 Data type: `Array[String[1]]`
 
@@ -298,7 +297,7 @@ Wrapper parameter: 'puppet-dhcp' module class parameter
 
 Default value: `[]`
 
-##### `ntpservers`
+##### <a name="ntpservers"></a>`ntpservers`
 
 Data type: `Array[Variant[Stdlib::Fqdn, Stdlib::IP::Address]]`
 
@@ -307,7 +306,7 @@ Wrapper parameter: 'puppet-dhcp' module class parameter
 
 Default value: `[]`
 
-##### `dnsupdatekey`
+##### <a name="dnsupdatekey"></a>`dnsupdatekey`
 
 Data type: `Optional[Stdlib::Absolutepath]`
 
@@ -317,7 +316,7 @@ Wrapper parameter: 'puppet-dhcp' module class parameter
 
 Default value: ``undef``
 
-##### `dnskeyname`
+##### <a name="dnskeyname"></a>`dnskeyname`
 
 Data type: `String[1]`
 
@@ -326,7 +325,7 @@ Wrapper parameter: 'puppet-dhcp' module class parameter
 
 Default value: `'rndc-key'`
 
-##### `ddns_client_updates`
+##### <a name="ddns_client_updates"></a>`ddns_client_updates`
 
 Data type: `Enum['allow', 'deny']`
 
@@ -335,7 +334,7 @@ Wrapper parameter: 'puppet-dhcp' module class parameter
 
 Default value: `'deny'`
 
-##### `ddns_update_style`
+##### <a name="ddns_update_style"></a>`ddns_update_style`
 
 Data type: `Enum['ad-hoc', 'interim', 'standard', 'none']`
 
@@ -344,7 +343,7 @@ Wrapper parameter: 'puppet-dhcp' module class parameter
 
 Default value: `'standard'`
 
-##### `ddns_update_static`
+##### <a name="ddns_update_static"></a>`ddns_update_static`
 
 Data type: `Enum['on', 'off']`
 
@@ -353,7 +352,7 @@ Wrapper parameter: 'puppet-dhcp' module class parameter
 
 Default value: `'off'`
 
-##### `ddns_update_optimize`
+##### <a name="ddns_update_optimize"></a>`ddns_update_optimize`
 
 Data type: `Enum['on', 'off']`
 
@@ -362,7 +361,7 @@ Wrapper parameter: 'puppet-dhcp' module class parameter
 
 Default value: `'on'`
 
-##### `pools`
+##### <a name="pools"></a>`pools`
 
 Data type: `Hash[String, Hash]`
 
@@ -371,7 +370,7 @@ Wrapper parameter: 'puppet-dhcp' module class parameter
 
 Default value: `{}`
 
-##### `pxeserver`
+##### <a name="pxeserver"></a>`pxeserver`
 
 Data type: `Optional[Stdlib::Host]`
 
@@ -381,7 +380,7 @@ Ref: https://ipxe.org/
 
 Default value: ``undef``
 
-##### `pxefilename`
+##### <a name="pxefilename"></a>`pxefilename`
 
 Data type: `Optional[Variant[Stdlib::Absolutepath, Stdlib::HTTPUrl]]`
 
@@ -390,7 +389,7 @@ iPXE "Bootfile" script scoped to absolute path (TFTP) or HTTP(S) URL (HTTP)
 
 Default value: ``undef``
 
-### `profiles::disk`
+### <a name="profilesdisk"></a>`profiles::disk`
 
 Manages the node's "external" block devices (i.e. non-root)
 Performs filesystem creation and manages mount behaviours
@@ -405,9 +404,12 @@ include profiles::disk
 
 #### Parameters
 
-The following parameters are available in the `profiles::disk` class.
+The following parameters are available in the `profiles::disk` class:
 
-##### `filesystems`
+* [`filesystems`](#filesystems)
+* [`mounts`](#mounts)
+
+##### <a name="filesystems"></a>`filesystems`
 
 Data type: `Hash`
 
@@ -418,7 +420,7 @@ Title: udev disk by-id value (recommended)
 
 Default value: `{}`
 
-##### `mounts`
+##### <a name="mounts"></a>`mounts`
 
 Data type: `Hash`
 
@@ -427,7 +429,7 @@ Title: udev disk by-uuid (filesystem)
 
 Default value: `{}`
 
-### `profiles::dns`
+### <a name="profilesdns"></a>`profiles::dns`
 
 Manages ISC BIND DNS server (bind9) configuration/behaviour
 Responsible for zone allocation, recursion & forwarding, rndc keys, etc.
@@ -443,9 +445,23 @@ include profiles::dns
 
 #### Parameters
 
-The following parameters are available in the `profiles::dns` class.
+The following parameters are available in the `profiles::dns` class:
 
-##### `service_ensure`
+* [`service_ensure`](#service_ensure)
+* [`config_check`](#config_check)
+* [`recursion`](#recursion)
+* [`allow_recursion`](#allow_recursion)
+* [`allow_query`](#allow_query)
+* [`forward`](#forward)
+* [`forwarders`](#forwarders)
+* [`acls`](#acls)
+* [`keys`](#keys)
+* [`enable_views`](#enable_views)
+* [`views`](#views)
+* [`zones`](#zones)
+* [`additional_options`](#additional_options)
+
+##### <a name="service_ensure"></a>`service_ensure`
 
 Data type: `Stdlib::Ensure::Service`
 
@@ -454,7 +470,7 @@ Wrapper parameter: 'theforeman-dns' module class parameter
 
 Default value: `'stopped'`
 
-##### `config_check`
+##### <a name="config_check"></a>`config_check`
 
 Data type: `Boolean`
 
@@ -463,7 +479,7 @@ Wrapper parameter: 'theforeman-dns' module class parameter
 
 Default value: ``true``
 
-##### `recursion`
+##### <a name="recursion"></a>`recursion`
 
 Data type: `Enum['yes', 'no']`
 
@@ -473,7 +489,7 @@ Wrapper parameter: 'theforeman-dns' module class parameter
 
 Default value: `'no'`
 
-##### `allow_recursion`
+##### <a name="allow_recursion"></a>`allow_recursion`
 
 Data type: `Array[String]`
 
@@ -482,7 +498,7 @@ Wrapper parameter: 'theforeman-dns' module class parameter
 
 Default value: `['none']`
 
-##### `allow_query`
+##### <a name="allow_query"></a>`allow_query`
 
 Data type: `Array[String]`
 
@@ -491,7 +507,7 @@ Wrapper parameter: 'theforeman-dns' module class parameter
 
 Default value: `['none']`
 
-##### `forward`
+##### <a name="forward"></a>`forward`
 
 Data type: `Optional[Enum['only', 'first']]`
 
@@ -501,7 +517,7 @@ Wrapper parameter: 'theforeman-dns' module class parameter
 
 Default value: ``undef``
 
-##### `forwarders`
+##### <a name="forwarders"></a>`forwarders`
 
 Data type: `Array[Stdlib::IP::Address::V4]`
 
@@ -511,7 +527,7 @@ Wrapper parameter: 'theforeman-dns' module class parameter
 
 Default value: `[]`
 
-##### `acls`
+##### <a name="acls"></a>`acls`
 
 Data type: `Hash[String, Array[String]]`
 
@@ -521,7 +537,7 @@ Wrapper parameter: 'theforeman-dns' module class parameter
 
 Default value: `{}`
 
-##### `keys`
+##### <a name="keys"></a>`keys`
 
 Data type: `Hash[String, Hash]`
 
@@ -530,7 +546,7 @@ Wrapper parameter: 'theforeman-dns' module class parameter
 
 Default value: `{}`
 
-##### `enable_views`
+##### <a name="enable_views"></a>`enable_views`
 
 Data type: `Boolean`
 
@@ -540,7 +556,7 @@ Wrapper parameter: 'theforeman-dns' module class parameter
 
 Default value: ``false``
 
-##### `views`
+##### <a name="views"></a>`views`
 
 Data type: `Hash[String, Hash]`
 
@@ -549,7 +565,7 @@ Facilitates multiple "view" instantiations via Hash data resource definitions
 
 Default value: `{}`
 
-##### `zones`
+##### <a name="zones"></a>`zones`
 
 Data type: `Hash[String, Hash]`
 
@@ -559,7 +575,7 @@ Wrapper parameter: 'theforeman-dns' module class parameter
 
 Default value: `{}`
 
-##### `additional_options`
+##### <a name="additional_options"></a>`additional_options`
 
 Data type: `Hash[String, Data]`
 
@@ -568,7 +584,7 @@ Wrapper parameter: 'theforeman-dns' module class parameter
 
 Default value: `{}`
 
-### `profiles::http`
+### <a name="profileshttp"></a>`profiles::http`
 
 Manages Apache HTTP server configuration/behaviour
 Responsible for virtual hosts, Apache modules, load balancing, etc
@@ -588,9 +604,16 @@ include profiles::http
 
 #### Parameters
 
-The following parameters are available in the `profiles::http` class.
+The following parameters are available in the `profiles::http` class:
 
-##### `service_enable`
+* [`service_enable`](#service_enable)
+* [`service_ensure`](#service_ensure)
+* [`default_vhost`](#default_vhost)
+* [`default_ssl_vhost`](#default_ssl_vhost)
+* [`root_directory_secured`](#root_directory_secured)
+* [`vhosts`](#vhosts)
+
+##### <a name="service_enable"></a>`service_enable`
 
 Data type: `Boolean`
 
@@ -599,7 +622,7 @@ Wrapper parameter: 'puppetlabs-apache' module class parameter
 
 Default value: ``false``
 
-##### `service_ensure`
+##### <a name="service_ensure"></a>`service_ensure`
 
 Data type: `Stdlib::Ensure::Service`
 
@@ -608,7 +631,7 @@ Wrapper parameter: 'puppetlabs-apache' module class parameter
 
 Default value: `'stopped'`
 
-##### `default_vhost`
+##### <a name="default_vhost"></a>`default_vhost`
 
 Data type: `Boolean`
 
@@ -618,7 +641,7 @@ Wrapper parameter: 'puppetlabs-apache' module class parameter
 
 Default value: ``false``
 
-##### `default_ssl_vhost`
+##### <a name="default_ssl_vhost"></a>`default_ssl_vhost`
 
 Data type: `Boolean`
 
@@ -628,7 +651,7 @@ Wrapper parameter: 'puppetlabs-apache' module class parameter
 
 Default value: ``false``
 
-##### `root_directory_secured`
+##### <a name="root_directory_secured"></a>`root_directory_secured`
 
 Data type: `Boolean`
 
@@ -638,7 +661,7 @@ Wrapper parameter: 'puppetlabs-apache' module class parameter
 
 Default value: ``true``
 
-##### `vhosts`
+##### <a name="vhosts"></a>`vhosts`
 
 Data type: `Hash`
 
@@ -649,7 +672,7 @@ Wrapper parameter: 'puppetlabs-apache' ::vhosts subclass parameter
 
 Default value: `{}`
 
-### `profiles::network`
+### <a name="profilesnetwork"></a>`profiles::network`
 
 Manages the node's network interface(s), static route(s), rule(s)
 Leverages the '/etc/network/interfaces' consumed by `ifup/ifdown`
@@ -664,9 +687,11 @@ include profiles::network
 
 #### Parameters
 
-The following parameters are available in the `profiles::network` class.
+The following parameters are available in the `profiles::network` class:
 
-##### `interfaces`
+* [`interfaces`](#interfaces)
+
+##### <a name="interfaces"></a>`interfaces`
 
 Data type: `Hash`
 
@@ -674,7 +699,7 @@ Specifies the network interface(s) to manage
 
 Default value: `{}`
 
-### `profiles::ssh`
+### <a name="profilesssh"></a>`profiles::ssh`
 
 Manages Open Secure SHell (OpenSSH) Client & Server configuration
 Responsible for configuration of ssh_config(5) and sshd_config(5) options
@@ -690,9 +715,19 @@ include profiles::ssh
 
 #### Parameters
 
-The following parameters are available in the `profiles::ssh` class.
+The following parameters are available in the `profiles::ssh` class:
 
-##### `service_ensure`
+* [`service_ensure`](#service_ensure)
+* [`manage_sshd_config`](#manage_sshd_config)
+* [`manage_ssh_config`](#manage_ssh_config)
+* [`sshd_config_path`](#sshd_config_path)
+* [`ssh_config_path`](#ssh_config_path)
+* [`permit_root_login`](#permit_root_login)
+* [`sshd_password_authentication`](#sshd_password_authentication)
+* [`sshd_pubkeyauthentication`](#sshd_pubkeyauthentication)
+* [`keys`](#keys)
+
+##### <a name="service_ensure"></a>`service_ensure`
 
 Data type: `Stdlib::Ensure::Service`
 
@@ -701,7 +736,7 @@ Wrapper parameter: 'ghoneycutt-ssh' module class parameter
 
 Default value: `'running'`
 
-##### `manage_sshd_config`
+##### <a name="manage_sshd_config"></a>`manage_sshd_config`
 
 Data type: `Boolean`
 
@@ -709,7 +744,7 @@ Specify whether this module manages the OpenSSH server configuration
 
 Default value: ``true``
 
-##### `manage_ssh_config`
+##### <a name="manage_ssh_config"></a>`manage_ssh_config`
 
 Data type: `Boolean`
 
@@ -717,7 +752,7 @@ Specify whether this module manages the OpenSSH client configuration
 
 Default value: ``false``
 
-##### `sshd_config_path`
+##### <a name="sshd_config_path"></a>`sshd_config_path`
 
 Data type: `Stdlib::Absolutepath`
 
@@ -726,7 +761,7 @@ Wrapper parameter: 'ghoneycutt-ssh' module class parameter
 
 Default value: `'/etc/ssh/sshd_config'`
 
-##### `ssh_config_path`
+##### <a name="ssh_config_path"></a>`ssh_config_path`
 
 Data type: `Stdlib::Absolutepath`
 
@@ -735,7 +770,7 @@ Wrapper parameter: 'ghoneycutt-ssh' module class parameter
 
 Default value: `'/etc/ssh/ssh_config'`
 
-##### `permit_root_login`
+##### <a name="permit_root_login"></a>`permit_root_login`
 
 Data type: `Enum['yes', 'no', 'without-password', 'forced-commands-only']`
 
@@ -745,7 +780,7 @@ Wrapper parameter: 'ghoneycutt-ssh' module class parameter
 
 Default value: `'no'`
 
-##### `sshd_password_authentication`
+##### <a name="sshd_password_authentication"></a>`sshd_password_authentication`
 
 Data type: `Enum['yes', 'no']`
 
@@ -754,7 +789,7 @@ Wrapper parameter: 'ghoneycutt-ssh' module class parameter
 
 Default value: `'no'`
 
-##### `sshd_pubkeyauthentication`
+##### <a name="sshd_pubkeyauthentication"></a>`sshd_pubkeyauthentication`
 
 Data type: `Enum['yes', 'no']`
 
@@ -763,7 +798,7 @@ Wrapper parameter: 'ghoneycutt-ssh' module class parameter
 
 Default value: `'yes'`
 
-##### `keys`
+##### <a name="keys"></a>`keys`
 
 Data type: `Hash[String, Hash]`
 
@@ -772,7 +807,7 @@ Wrapper parameter: 'ghoneycutt-ssh' module class parameter
 
 Default value: `{}`
 
-### `profiles::tftp`
+### <a name="profilestftp"></a>`profiles::tftp`
 
 Manages Trivial File Transfer Protocol (TFTP) server configuration/behaviour
 Extensively utilised by "traditional" (i.e. non-EFI HTTP booting) PXE environments
@@ -788,9 +823,15 @@ include profiles::tftp
 
 #### Parameters
 
-The following parameters are available in the `profiles::tftp` class.
+The following parameters are available in the `profiles::tftp` class:
 
-##### `address`
+* [`address`](#address)
+* [`port`](#port)
+* [`username`](#username)
+* [`directory`](#directory)
+* [`options`](#options)
+
+##### <a name="address"></a>`address`
 
 Data type: `Stdlib::Host`
 
@@ -800,7 +841,7 @@ Wrapper parameter: 'puppetlabs-tftp' module class parameter
 
 Default value: `'localhost'`
 
-##### `port`
+##### <a name="port"></a>`port`
 
 Data type: `Stdlib::Port`
 
@@ -809,7 +850,7 @@ Wrapper parameter: 'puppetlabs-tftp' module class parameter
 
 Default value: `69`
 
-##### `username`
+##### <a name="username"></a>`username`
 
 Data type: `String[1]`
 
@@ -818,7 +859,7 @@ Wrapper parameter: 'puppetlabs-tftp' module class parameter
 
 Default value: `'tftp'`
 
-##### `directory`
+##### <a name="directory"></a>`directory`
 
 Data type: `Array[Stdlib::Absolutepath]`
 
@@ -829,7 +870,7 @@ Wrapper parameter: 'puppetlabs-tftp' module class parameter
 
 Default value: `[]`
 
-##### `options`
+##### <a name="options"></a>`options`
 
 Data type: `Array[String[1]]`
 

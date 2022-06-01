@@ -6,14 +6,14 @@
 # @example
 #   include profiles::bootstrap
 #
-# @param seed
-#   Specifies additional bootstrapping configuration for the given "seed" node
+# @param serverless
+#   Installs and configures a locally hosted Puppetserver for catalog generation
 #
 class profiles::bootstrap(
-  Boolean $seed = false,
+  Boolean $serverless = true,
 ) {
-  include profiles::bootstrap::node
-  if ($seed) {
-    include profiles::bootstrap::seed
+  include profiles::bootstrap::agent
+  if ($serverless) {
+    include profiles::bootstrap::server
   }
 }

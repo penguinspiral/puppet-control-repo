@@ -6,9 +6,6 @@ fixtures:
     apache:
       repo: "puppetlabs-apache"
       ref:  "7.0.0"
-    apt:
-      repo: "puppetlabs-apt"
-      ref:  "8.3.0"
     common:
       repo: "ghoneycutt-common"
       ref:  "1.10.0"
@@ -21,6 +18,9 @@ fixtures:
     dns:
       repo: "theforeman-dns"
       ref:  "9.3.0"
+    facter:
+      repo: "ghoneycutt-facter"
+      ref:  "4.0.0"
     firewall:
       repo: "puppetlabs-firewall"
       ref:  "3.4.0"
@@ -49,6 +49,9 @@ fixtures:
       repo: "puppetlabs-tftp"
       ref:  "1.0.0"
   repositories:
+    apt:
+      repo: "https://github.com/puppetlabs/puppetlabs-apt.git"
+      ref:  "dbf886131699bd1a2df3a1c6ce4ec583a1649d2f"
     ssh:
       repo: "https://github.com/vilhelmprytz/puppet-module-ssh.git"
       ref:  "2c1076406465b0420e3e7b46083dd99fc79ccce2"
