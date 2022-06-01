@@ -60,6 +60,10 @@
       "version_requirement": "1.10.0"
     },
     {
+      "name": "ghoneycutt/facter",
+      "version_requirement": "4.0.0"
+    },
+    {
       "name": "ghoneycutt/ssh",
       "version_requirement": "3.62.0"
     },

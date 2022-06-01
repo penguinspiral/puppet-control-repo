@@ -21,6 +21,9 @@ fixtures:
     dns:
       repo: "theforeman-dns"
       ref:  "9.3.0"
+    facter:
+      repo: "ghoneycutt-facter"
+      ref:  "4.0.0"
     firewall:
       repo: "puppetlabs-firewall"
       ref:  "3.4.0"

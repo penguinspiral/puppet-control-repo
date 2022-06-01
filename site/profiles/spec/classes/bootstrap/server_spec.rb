@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'profiles::bootstrap::node::server', type: :class do
+describe 'profiles::bootstrap::server', type: :class do
   context 'when default' do
     puppetserver_service_default = {
       owner: 'root',
