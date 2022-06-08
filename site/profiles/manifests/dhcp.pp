@@ -67,6 +67,10 @@
 #   Specify DHCP pool(s)/zone(s) attributes (e.g. subnets, gateway, etc)
 #   Wrapper parameter: 'puppet-dhcp' module class parameter
 #
+# @param hosts
+#   Specify DHCP host(s) reservations & options
+#   Wrapper parameter: 'puppet-dhcp' module class parameter
+#
 # @param pxeserver
 #   Specify Trivial File Transfer Protocol (TFTP) server (Option 66)
 #   Utilises iPXE implementation of PXE for PCBIOS & UEFI support
@@ -90,6 +94,7 @@ class profiles::dhcp(
   Enum['on', 'off']                                        $ddns_update_static   = 'off',
   Enum['on', 'off']                                        $ddns_update_optimize = 'on',
   Hash[String, Hash]                                       $pools                = {},
+  Hash[String[1], Hash]                                    $hosts                = {},
   Optional[Stdlib::Host]                                   $pxeserver            = undef,
   Optional[Variant[Stdlib::Absolutepath, Stdlib::HTTPUrl]] $pxefilename          = undef,
 ) {
@@ -117,6 +122,7 @@ class profiles::dhcp(
     ddns_update_static   => $ddns_update_static,
     ddns_update_optimize => $ddns_update_optimize,
     pools                => $pools,
+    hosts                => $hosts,
     dhcp_conf_pxe        => $dhcp_conf_pxe_content,
   }
 }
