@@ -43,6 +43,7 @@ describe 'profiles::dhcp', type: :class do
         content: %r{^# BEGIN PXE Section\n# END PXE Section$},
       )
     }
+    it { is_expected.to have_dhcp__host_resource_count(0) }
     it { is_expected.to compile }
   end
 
@@ -539,6 +540,79 @@ describe 'profiles::dhcp', type: :class do
         let :params do
           {
             pools: pools,
+          }
+        end
+
+        it { is_expected.to raise_error(Puppet::Error, %r{expects a Hash}) }
+        it { is_expected.not_to compile }
+      end
+    end
+  end
+
+  context 'when ::hosts valid' do
+    hosts =
+      {
+        'hygon' =>
+          {
+            mac:            'AB:CD:EF:01:23:45',
+            ip:             '192.168.0.10',
+            ddns_hostname:  'hygon',
+            max_lease_time: 600,
+            options:        { 'puppet-role' => 'vmm', },
+          },
+        'octeron' =>
+          {
+            mac:            '01:23:45:AB:CD:EF',
+            ip:             '192.168.0.11',
+            ddns_hostname:  'octeron',
+            max_lease_time: 300,
+            options:        { 'puppet-role' => 'nas', },
+          },
+      }
+
+    context "when ::hosts #{hosts}" do
+      let :params do
+        {
+          hosts: hosts,
+        }
+      end
+
+      hosts.each do |key, value|
+        it {
+          is_expected.to contain_dhcp__host(key).with(
+            name:           key,
+            mac:            value[:mac],
+            ip:             value[:ip],
+            ddns_hostname:  value[:ddns_hostname],
+            max_lease_time: value[:max_lease_time],
+            options:        value[:options],
+          )
+        }
+        dhcp_host_config = [
+          "host #{key}.*",
+          "hardware ethernet\ +#{value[:mac]};.*",
+          "fixed-address\ +#{value[:ip]};.*",
+          "ddns-hostname\ +\"#{key}\";.*",
+          "max-lease-time\ +#{value[:max_lease_time]};.*",
+          "option #{value[:options].keys[0]} #{value[:options].values[0]};",
+        ]
+        it {
+          is_expected.to contain_concat_fragment("dhcp_host_#{key}").with(
+            content: %r{#{dhcp_host_config.join("")}}m,
+          )
+        }
+      end
+      it { is_expected.to compile }
+    end
+  end
+
+  context 'when ::hosts invalid' do
+    invalid = ['octeron', false, ['hygon.raft.com', 'octeron.raft.com']]
+    invalid.each do |hosts|
+      context "when ::hosts #{hosts}" do
+        let :params do
+          {
+            hosts: hosts,
           }
         end
 
