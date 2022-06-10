@@ -246,6 +246,7 @@ The following parameters are available in the `profiles::dhcp` class:
 * [`ddns_update_static`](#ddns_update_static)
 * [`ddns_update_optimize`](#ddns_update_optimize)
 * [`pools`](#pools)
+* [`hosts`](#hosts)
 * [`pxeserver`](#pxeserver)
 * [`pxefilename`](#pxefilename)
 
@@ -366,6 +367,15 @@ Default value: `'on'`
 Data type: `Hash[String, Hash]`
 
 Specify DHCP pool(s)/zone(s) attributes (e.g. subnets, gateway, etc)
+Wrapper parameter: 'puppet-dhcp' module class parameter
+
+Default value: `{}`
+
+##### <a name="hosts"></a>`hosts`
+
+Data type: `Hash[String[1], Hash]`
+
+Specify DHCP host(s) reservations & options
 Wrapper parameter: 'puppet-dhcp' module class parameter
 
 Default value: `{}`
