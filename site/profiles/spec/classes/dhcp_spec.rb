@@ -250,6 +250,46 @@ describe 'profiles::dhcp', type: :class do
     end
   end
 
+  context 'when ::globaloptions valid' do
+    valid = [ 'puppet-role code 225 = string',
+              [ 'use-zephyr code 180 = boolean',
+                'sql-connection-max code 192 = unsigned integer 16'] ]
+    valid.each do |globaloptions|
+      context "when ::globaloptions #{globaloptions}" do
+        let :params do
+          {
+            globaloptions: globaloptions,
+          }
+        end
+
+        # Convert input to array & prefix with 'option '
+        globaloptions_a = Array(globaloptions).map { |option| "option #{option}" }
+        it {
+          is_expected.to contain_concat_fragment('dhcp-conf-header').with(
+            content: %r{#{globaloptions_a.join(';\n')};\n# END DHCP Header\n},
+          )
+        }
+        it { is_expected.to compile }
+      end
+    end
+  end
+
+  context 'when ::globaloptions invalid' do
+    invalid = [ 225, false, [''] ]
+    invalid.each do |globaloptions|
+      context "when ::globaloptions #{globaloptions}" do
+        let :params do
+          {
+            globaloptions: globaloptions,
+          }
+        end
+
+        it { is_expected.to raise_error(Puppet::Error, %r{(expects a value of type Undef, String, or Array|variant 2 index 0 expects a String\[1\] value)}) }
+        it { is_expected.not_to compile }
+      end
+    end
+  end
+
   context 'when ::dnsupdatekey valid' do
     valid = ['/etc/bind/rndc-key.key', '/etc/bind/raft.com.key']
     valid.each do |dnsupdatekey|
