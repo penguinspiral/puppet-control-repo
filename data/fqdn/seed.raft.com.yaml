@@ -29,6 +29,8 @@ profiles::dhcp::ntpservers:
   - '0.us.pool.ntp.org'
   - '1.us.pool.ntp.org'
   - '2.us.pool.ntp.org'
+profiles::dhcp::globaloptions:
+  - 'role code 224 = string'
 profiles::dhcp::dnsupdatekey: '/etc/bind/raft.com.key'
 profiles::dhcp::dnskeyname: 'raft.com'
 profiles::dhcp::pools:
