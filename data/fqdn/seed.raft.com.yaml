@@ -40,7 +40,7 @@ profiles::dhcp::pools:
        - '192.168.0.3 192.168.0.254'
 
 profiles::disk::mounts:
-  '/dev/disk/by-label/Debian 11.3 amd64 1':
+  'debian_iso9660_local':
     name: '/media/cdrom'
     device: 'LABEL=Debian\04011.3\040amd64\0401'
     ensure: mounted
@@ -104,29 +104,29 @@ profiles::http::vhosts:
     aliases:
       - {
           alias: '/mirror/debian',
-          path:  "%{lookup('profiles::disk::mounts.\"/dev/disk/by-label/Debian 11.3 amd64 1\".name')}/mirror",
+          path:  "%{lookup('profiles::disk::mounts.debian_iso9660_local.name')}/mirror",
         }
       - {
          alias: '/mirror/puppetlabs',
-         path:  "%{lookup('profiles::disk::mounts.\"/dev/disk/by-label/Debian 11.3 amd64 1\".name')}/extra/mirror/puppetlabs/bullseye",
+         path:  "%{lookup('profiles::disk::mounts.debian_iso9660_local.name')}/extra/mirror/puppetlabs/bullseye",
         }
       - {
           alias: '/mirror/gpg.d',
-          path:  "%{lookup('profiles::disk::mounts.\"/dev/disk/by-label/Debian 11.3 amd64 1\".name')}/extra/mirror/gpg.d",
+          path:  "%{lookup('profiles::disk::mounts.debian_iso9660_local.name')}/extra/mirror/gpg.d",
         }
     directories:
       - {
-          path:           "%{lookup('profiles::disk::mounts.\"/dev/disk/by-label/Debian 11.3 amd64 1\".name')}/mirror",
+          path:           "%{lookup('profiles::disk::mounts.debian_iso9660_local.name')}/mirror",
           options:        ['Indexes'],
           allow_override: ['None'],
         }
       - {
-          path:           "%{lookup('profiles::disk::mounts.\"/dev/disk/by-label/Debian 11.3 amd64 1\".name')}/extra/mirror/puppetlabs/bullseye",
+          path:           "%{lookup('profiles::disk::mounts.debian_iso9660_local.name')}/extra/mirror/puppetlabs/bullseye",
           options:        ['Indexes'],
           allow_override: ['None'],
         }
       - {
-          path:           "%{lookup('profiles::disk::mounts.\"/dev/disk/by-label/Debian 11.3 amd64 1\".name')}/extra/mirror/gpg.d",
+          path:           "%{lookup('profiles::disk::mounts.debian_iso9660_local.name')}/extra/mirror/gpg.d",
           options:        ['Indexes'],
           allow_override: ['None'],
         }
