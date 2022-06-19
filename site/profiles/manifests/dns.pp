@@ -64,7 +64,7 @@
 #   Specify additional generic/free-form options appended to 'options.conf'
 #   Wrapper parameter: 'theforeman-dns' module class parameter
 #
-class profiles::dns(
+class profiles::dns (
   Stdlib::Ensure::Service         $service_ensure     = 'stopped',
   Boolean                         $config_check       = true,
   Enum['yes', 'no']               $recursion          = 'no',

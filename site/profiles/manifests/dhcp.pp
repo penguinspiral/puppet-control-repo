@@ -84,7 +84,7 @@
 #   Specify the chainloaded "Bootfile" to be loaded by PXE clients (Option 67)
 #   iPXE "Bootfile" script scoped to absolute path (TFTP) or HTTP(S) URL (HTTP)
 #
-class profiles::dhcp(
+class profiles::dhcp (
   Stdlib::Ensure::Service                                  $service_ensure       = 'stopped',
   Array[String[1]]                                         $interfaces           = [],
   Array[String[1]]                                         $dnsdomain            = [],
@@ -103,14 +103,13 @@ class profiles::dhcp(
   Optional[Stdlib::Host]                                   $pxeserver            = undef,
   Optional[Variant[Stdlib::Absolutepath, Stdlib::HTTPUrl]] $pxefilename          = undef,
 ) {
-
   if (!$pxeserver != !$pxefilename) {
     fail('$pxeserver and $pxefilename are required when enabling PXE')
   }
 
   $dhcp_conf_pxe_content = epp('profiles/dhcp/dhcpd.pxe.epp', {
-    'pxeserver'   => $pxeserver,
-    'pxefilename' => $pxefilename,
+      'pxeserver'   => $pxeserver,
+      'pxefilename' => $pxefilename,
   })
 
   class { 'dhcp':

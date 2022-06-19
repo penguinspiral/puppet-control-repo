@@ -15,7 +15,7 @@
 #  Mount options of the target block device(s)
 #  Title: udev disk by-uuid (filesystem)
 #
-class profiles::disk(
+class profiles::disk (
   Hash $filesystems = {},
   Hash $mounts      = {},
 ) {

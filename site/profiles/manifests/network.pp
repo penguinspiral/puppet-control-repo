@@ -8,7 +8,7 @@
 # @param interfaces
 #   Specifies the network interface(s) to manage
 #
-class profiles::network(
+class profiles::network (
   Hash $interfaces = {},
 ) {
   class { 'network':
