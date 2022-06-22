@@ -30,13 +30,13 @@
 #  Ref: man tftpd-hpa(8)
 #  Wrapper parameter: 'puppetlabs-tftp' module class parameter
 #
-class profiles::tftp(
+class profiles::tftp (
   Stdlib::Host                $address   = 'localhost',
   Stdlib::Port                $port      = 69,
   String[1]                   $username  = 'tftp',
   Array[Stdlib::Absolutepath] $directory = [],
   Array[String[1]]            $options   = [],
-){
+) {
   class { 'tftp':
     address   => $address,
     port      => $port,

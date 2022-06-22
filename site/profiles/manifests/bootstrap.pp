@@ -9,7 +9,7 @@
 # @param serverless
 #   Installs and configures a locally hosted Puppetserver for catalog generation
 #
-class profiles::bootstrap(
+class profiles::bootstrap (
   Boolean $serverless = true,
 ) {
   include profiles::bootstrap::agent

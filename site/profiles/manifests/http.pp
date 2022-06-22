@@ -38,7 +38,7 @@
 #   Ref: https://github.com/puppetlabs/puppetlabs-apache/blob/main/manifests/vhost.pp
 #   Wrapper parameter: 'puppetlabs-apache' ::vhosts subclass parameter
 #
-class profiles::http(
+class profiles::http (
   Boolean                 $service_enable         = false,
   Stdlib::Ensure::Service $service_ensure         = 'stopped',
   Boolean                 $default_vhost          = false,

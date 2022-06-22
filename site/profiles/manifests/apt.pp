@@ -14,7 +14,7 @@
 #   Specify APT respository URI and corresponding settings (e.g. repos)
 #   Wrapper parameter: 'puppetlabs-apt' module class parameter
 #
-class profiles::apt(
+class profiles::apt (
   Hash $purge   = {},
   Hash $sources = {},
 ) {
