@@ -38,6 +38,10 @@
 #   Specify Network Time Protocol (NTP) server(s) (Option 4)
 #   Wrapper parameter: 'puppet-dhcp' module class parameter
 #
+# @param globaloptions
+#   Specify arbritrary, globally scoped ISC DHCP option(s)
+#   Wrapper parameter: 'puppet-dhcp' module class parameter
+#
 # @param dnsupdatekey
 #   Specify a Remote Name Daemon Control (RNDC) key file for Dynamic DNS (DDNS)
 #   DDNS is disabled unless the absolute path for a valid key is set
@@ -87,6 +91,7 @@ class profiles::dhcp(
   Array[Stdlib::IP::Address::V4]                           $nameservers          = [],
   Array[String[1]]                                         $dnssearchdomains     = [],
   Array[Variant[Stdlib::Fqdn, Stdlib::IP::Address]]        $ntpservers           = [],
+  Optional[Variant[String,Array[String[1]]]]               $globaloptions        = undef,
   Optional[Stdlib::Absolutepath]                           $dnsupdatekey         = undef,
   String[1]                                                $dnskeyname           = 'rndc-key',
   Enum['allow', 'deny']                                    $ddns_client_updates  = 'deny',
@@ -115,6 +120,7 @@ class profiles::dhcp(
     nameservers          => $nameservers,
     dnssearchdomains     => $dnssearchdomains,
     ntpservers           => $ntpservers,
+    globaloptions        => $globaloptions,
     dnsupdatekey         => $dnsupdatekey,
     dnskeyname           => $dnskeyname,
     ddns_client_updates  => $ddns_client_updates,

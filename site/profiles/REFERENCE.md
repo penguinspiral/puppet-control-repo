@@ -239,6 +239,7 @@ The following parameters are available in the `profiles::dhcp` class:
 * [`nameservers`](#nameservers)
 * [`dnssearchdomains`](#dnssearchdomains)
 * [`ntpservers`](#ntpservers)
+* [`globaloptions`](#globaloptions)
 * [`dnsupdatekey`](#dnsupdatekey)
 * [`dnskeyname`](#dnskeyname)
 * [`ddns_client_updates`](#ddns_client_updates)
@@ -306,6 +307,15 @@ Specify Network Time Protocol (NTP) server(s) (Option 4)
 Wrapper parameter: 'puppet-dhcp' module class parameter
 
 Default value: `[]`
+
+##### <a name="globaloptions"></a>`globaloptions`
+
+Data type: `Optional[Variant[String,Array[String[1]]]]`
+
+Specify arbritrary, globally scoped ISC DHCP option(s)
+Wrapper parameter: 'puppet-dhcp' module class parameter
+
+Default value: ``undef``
 
 ##### <a name="dnsupdatekey"></a>`dnsupdatekey`
 
