@@ -1,1 +1,33 @@
 version: 2.1
+parameters:
+  pdk-tag:
+    type: string
+    default: '2.5.0.0'
+
+jobs:
+  job-pdk-validate:
+    docker:
+      - image: puppet/pdk:<< pipeline.parameters.pdk-tag >>
+    resource_class: small
+    parallelism: 6
+    working_directory: '~/repo/site/profiles'
+    steps:
+      - checkout:
+          path: '~/repo'
+
+      - run:
+          name: 'Run "Profiles" module static analysis tests'
+          environment:
+            VALIDATORS: 'control-repo metadata puppet ruby tasks yaml'
+          command: |
+            set -x
+            TESTS=$(echo -e ${VALIDATORS// /\\n} | circleci tests split)
+            pdk validate --format=junit:report.xml $TESTS
+
+      - store_test_results:
+          path: '~/repo/site/profiles/report.xml'
+
+workflows:
+  workflow-puppet-control-repo:
+    jobs:
+      - job-pdk-validate
