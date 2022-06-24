@@ -27,7 +27,28 @@ jobs:
       - store_test_results:
           path: '~/repo/site/profiles/report.xml'
 
+  job-pdk-test:
+    docker:
+      - image: puppet/pdk:<< pipeline.parameters.pdk-tag >>
+    resource_class: small
+    parallelism: 11
+    working_directory: '~/repo/site/profiles'
+    steps:
+      - checkout:
+          path: '~/repo'
+
+      - run:
+          name: 'Run "Profiles" module unit tests'
+          command: |
+            set -x
+            TESTS=$(circleci tests glob 'spec/classes/**/*.rb' 'spec/defines/**/*.rb' | circleci tests split)
+            pdk test unit --format=junit:report.xml --tests "${TESTS//$'\n'/, }"
+
+      - store_test_results:
+          path: '~/repo/site/profiles/report.xml'
+
 workflows:
   workflow-puppet-control-repo:
     jobs:
       - job-pdk-validate
+      - job-pdk-test
