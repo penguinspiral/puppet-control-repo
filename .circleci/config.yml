@@ -3,6 +3,9 @@ parameters:
   pdk-tag:
     type: string
     default: '2.5.0.0'
+  r10k-tag:
+    type: string
+    default: '3.15.0'
 
 jobs:
   job-pdk-validate:
@@ -47,8 +50,19 @@ jobs:
       - store_test_results:
           path: '~/repo/site/profiles/report.xml'
 
+  job-r10k-verify:
+    docker:
+      - image: puppet/r10k:<< pipeline.parameters.r10k-tag >>
+    resource_class: small
+    steps:
+      - checkout
+      - run:
+          name: 'Verify Puppetfile syntax'
+          command: 'r10k puppetfile check Puppetfile'
+
 workflows:
   workflow-puppet-control-repo:
     jobs:
       - job-pdk-validate
       - job-pdk-test
+      - job-r10k-verify
