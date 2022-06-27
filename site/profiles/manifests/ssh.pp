@@ -41,7 +41,7 @@
 #   Hash of 'ssh_authorized_key' defining $USER/.ssh/authorized_keys
 #   Wrapper parameter: 'ghoneycutt-ssh' module class parameter
 #
-class profiles::ssh(
+class profiles::ssh (
   Stdlib::Ensure::Service                                       $service_ensure               = 'running',
   Boolean                                                       $manage_sshd_config           = true,
   Boolean                                                       $manage_ssh_config            = false,
@@ -51,7 +51,7 @@ class profiles::ssh(
   Enum['yes', 'no']                                             $sshd_password_authentication = 'no',
   Enum['yes', 'no']                                             $sshd_pubkeyauthentication    = 'yes',
   Hash[String, Hash]                                            $keys                         = {},
-){
+) {
   if (empty($keys)) and ($sshd_password_authentication == 'no') {
     fail('No SSH public key referenced and password authentication is disabled!')
   }

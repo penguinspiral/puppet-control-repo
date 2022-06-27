@@ -239,6 +239,7 @@ The following parameters are available in the `profiles::dhcp` class:
 * [`nameservers`](#nameservers)
 * [`dnssearchdomains`](#dnssearchdomains)
 * [`ntpservers`](#ntpservers)
+* [`globaloptions`](#globaloptions)
 * [`dnsupdatekey`](#dnsupdatekey)
 * [`dnskeyname`](#dnskeyname)
 * [`ddns_client_updates`](#ddns_client_updates)
@@ -246,6 +247,7 @@ The following parameters are available in the `profiles::dhcp` class:
 * [`ddns_update_static`](#ddns_update_static)
 * [`ddns_update_optimize`](#ddns_update_optimize)
 * [`pools`](#pools)
+* [`hosts`](#hosts)
 * [`pxeserver`](#pxeserver)
 * [`pxefilename`](#pxefilename)
 
@@ -305,6 +307,15 @@ Specify Network Time Protocol (NTP) server(s) (Option 4)
 Wrapper parameter: 'puppet-dhcp' module class parameter
 
 Default value: `[]`
+
+##### <a name="globaloptions"></a>`globaloptions`
+
+Data type: `Optional[Variant[String,Array[String[1]]]]`
+
+Specify arbritrary, globally scoped ISC DHCP option(s)
+Wrapper parameter: 'puppet-dhcp' module class parameter
+
+Default value: ``undef``
 
 ##### <a name="dnsupdatekey"></a>`dnsupdatekey`
 
@@ -366,6 +377,15 @@ Default value: `'on'`
 Data type: `Hash[String, Hash]`
 
 Specify DHCP pool(s)/zone(s) attributes (e.g. subnets, gateway, etc)
+Wrapper parameter: 'puppet-dhcp' module class parameter
+
+Default value: `{}`
+
+##### <a name="hosts"></a>`hosts`
+
+Data type: `Hash[String[1], Hash]`
+
+Specify DHCP host(s) reservations & options
 Wrapper parameter: 'puppet-dhcp' module class parameter
 
 Default value: `{}`

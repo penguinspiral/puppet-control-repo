@@ -1,0 +1,89 @@
+version: 2.1
+parameters:
+  pdk-tag:
+    type: string
+    default: '2.5.0.0'
+  r10k-tag:
+    type: string
+    default: '3.15.0'
+  puppet-dev-tools-tag:
+    type: string
+    default: '4.x'
+
+jobs:
+  job-pdk-validate:
+    docker:
+      - image: puppet/pdk:<< pipeline.parameters.pdk-tag >>
+    resource_class: small
+    parallelism: 6
+    working_directory: '~/repo/site/profiles'
+    steps:
+      - checkout:
+          path: '~/repo'
+
+      - run:
+          name: 'Run "Profiles" module static analysis tests'
+          environment:
+            VALIDATORS: 'control-repo metadata puppet ruby tasks yaml'
+          command: |
+            set -x
+            TESTS=$(echo -e ${VALIDATORS// /\\n} | circleci tests split)
+            pdk validate --format=junit:report.xml $TESTS
+
+      - store_test_results:
+          path: '~/repo/site/profiles/report.xml'
+
+  job-pdk-test:
+    docker:
+      - image: puppet/pdk:<< pipeline.parameters.pdk-tag >>
+    resource_class: small
+    parallelism: 11
+    working_directory: '~/repo/site/profiles'
+    steps:
+      - checkout:
+          path: '~/repo'
+
+      - run:
+          name: 'Run "Profiles" module unit tests'
+          command: |
+            set -x
+            TESTS=$(circleci tests glob 'spec/classes/**/*.rb' 'spec/defines/**/*.rb' | circleci tests split)
+            pdk test unit --format=junit:report.xml --tests "${TESTS//$'\n'/, }"
+
+      - store_test_results:
+          path: '~/repo/site/profiles/report.xml'
+
+  job-r10k-verify:
+    docker:
+      - image: puppet/r10k:<< pipeline.parameters.r10k-tag >>
+    resource_class: small
+    steps:
+      - checkout
+      - run:
+          name: 'Verify Puppetfile syntax'
+          command: 'r10k puppetfile check Puppetfile'
+
+  job-docs-validate:
+    docker:
+      - image: puppet/puppet-dev-tools:<< pipeline.parameters.puppet-dev-tools-tag >>
+    resource_class: small
+    working_directory: '~/repo/site/profiles'
+    steps:
+      - checkout:
+          path: '~/repo'
+
+      - run:
+          name: 'Generate REFERENCE.md documentation'
+          command: 'puppet strings generate --format markdown --out REFERENCE.md.temp'
+
+      - run:
+          name: 'Track REFERENCE.md documentation drift'
+          command: 'diff --unified REFERENCE.md REFERENCE.md.temp'
+
+workflows:
+  workflow-puppet-control-repo:
+    jobs:
+      - job-pdk-validate
+      - job-pdk-test
+      - job-r10k-verify
+      - job-docs-validate

@@ -38,6 +38,10 @@
 #   Specify Network Time Protocol (NTP) server(s) (Option 4)
 #   Wrapper parameter: 'puppet-dhcp' module class parameter
 #
+# @param globaloptions
+#   Specify arbritrary, globally scoped ISC DHCP option(s)
+#   Wrapper parameter: 'puppet-dhcp' module class parameter
+#
 # @param dnsupdatekey
 #   Specify a Remote Name Daemon Control (RNDC) key file for Dynamic DNS (DDNS)
 #   DDNS is disabled unless the absolute path for a valid key is set
@@ -67,6 +71,10 @@
 #   Specify DHCP pool(s)/zone(s) attributes (e.g. subnets, gateway, etc)
 #   Wrapper parameter: 'puppet-dhcp' module class parameter
 #
+# @param hosts
+#   Specify DHCP host(s) reservations & options
+#   Wrapper parameter: 'puppet-dhcp' module class parameter
+#
 # @param pxeserver
 #   Specify Trivial File Transfer Protocol (TFTP) server (Option 66)
 #   Utilises iPXE implementation of PXE for PCBIOS & UEFI support
@@ -76,13 +84,14 @@
 #   Specify the chainloaded "Bootfile" to be loaded by PXE clients (Option 67)
 #   iPXE "Bootfile" script scoped to absolute path (TFTP) or HTTP(S) URL (HTTP)
 #
-class profiles::dhcp(
+class profiles::dhcp (
   Stdlib::Ensure::Service                                  $service_ensure       = 'stopped',
   Array[String[1]]                                         $interfaces           = [],
   Array[String[1]]                                         $dnsdomain            = [],
   Array[Stdlib::IP::Address::V4]                           $nameservers          = [],
   Array[String[1]]                                         $dnssearchdomains     = [],
   Array[Variant[Stdlib::Fqdn, Stdlib::IP::Address]]        $ntpservers           = [],
+  Optional[Variant[String,Array[String[1]]]]               $globaloptions        = undef,
   Optional[Stdlib::Absolutepath]                           $dnsupdatekey         = undef,
   String[1]                                                $dnskeyname           = 'rndc-key',
   Enum['allow', 'deny']                                    $ddns_client_updates  = 'deny',
@@ -90,17 +99,17 @@ class profiles::dhcp(
   Enum['on', 'off']                                        $ddns_update_static   = 'off',
   Enum['on', 'off']                                        $ddns_update_optimize = 'on',
   Hash[String, Hash]                                       $pools                = {},
+  Hash[String[1], Hash]                                    $hosts                = {},
   Optional[Stdlib::Host]                                   $pxeserver            = undef,
   Optional[Variant[Stdlib::Absolutepath, Stdlib::HTTPUrl]] $pxefilename          = undef,
 ) {
-
   if (!$pxeserver != !$pxefilename) {
     fail('$pxeserver and $pxefilename are required when enabling PXE')
   }
 
   $dhcp_conf_pxe_content = epp('profiles/dhcp/dhcpd.pxe.epp', {
-    'pxeserver'   => $pxeserver,
-    'pxefilename' => $pxefilename,
+      'pxeserver'   => $pxeserver,
+      'pxefilename' => $pxefilename,
   })
 
   class { 'dhcp':
@@ -110,6 +119,7 @@ class profiles::dhcp(
     nameservers          => $nameservers,
     dnssearchdomains     => $dnssearchdomains,
     ntpservers           => $ntpservers,
+    globaloptions        => $globaloptions,
     dnsupdatekey         => $dnsupdatekey,
     dnskeyname           => $dnskeyname,
     ddns_client_updates  => $ddns_client_updates,
@@ -117,6 +127,7 @@ class profiles::dhcp(
     ddns_update_static   => $ddns_update_static,
     ddns_update_optimize => $ddns_update_optimize,
     pools                => $pools,
+    hosts                => $hosts,
     dhcp_conf_pxe        => $dhcp_conf_pxe_content,
   }
 }

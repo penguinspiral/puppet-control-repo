@@ -16,12 +16,11 @@
 # @param puppetserver
 #   Specify the hostname of the targeted Puppetserver
 #
-class profiles::bootstrap::agent(
+class profiles::bootstrap::agent (
   String[1]            $role          = $facts['role'],
   Stdlib::AbsolutePath $puppet_config = $settings::config,
   Stdlib::Host         $puppetserver  = 'localhost',
 ) {
-
   include profiles::apt
 
   facter::fact { 'role':
@@ -43,5 +42,4 @@ class profiles::bootstrap::agent(
     setting           => 'server',
     value             => $puppetserver,
   }
-
 }
