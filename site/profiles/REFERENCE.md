@@ -848,7 +848,8 @@ The following parameters are available in the `profiles::tftp` class:
 * [`address`](#address)
 * [`port`](#port)
 * [`username`](#username)
-* [`directory`](#directory)
+* [`managed_dirs`](#managed_dirs)
+* [`external_dirs`](#external_dirs)
 * [`options`](#options)
 
 ##### <a name="address"></a>`address`
@@ -879,14 +880,25 @@ Wrapper parameter: 'puppetlabs-tftp' module class parameter
 
 Default value: `'tftp'`
 
-##### <a name="directory"></a>`directory`
+##### <a name="managed_dirs"></a>`managed_dirs`
 
 Data type: `Array[Stdlib::Absolutepath]`
 
 Specify the director[y|ies] for the TFTP daemon to export
+Specified director[y|ies] are explicitly managed by 'profiles::tftp'
 Limited to exactly one directory when using '--secure' option
 Ref: man tftpd-hpa(8)
-Wrapper parameter: 'puppetlabs-tftp' module class parameter
+
+Default value: `[]`
+
+##### <a name="external_dirs"></a>`external_dirs`
+
+Data type: `Array[Stdlib::Absolutepath]`
+
+Specify the director[y|ies] for the TFTP daemon to export
+Specified director[y|ies] are not managed by 'profiles::tftp'
+Limited to exactly one directory when using '--secure' option
+Ref: man tftpd-hpa(8)
 
 Default value: `[]`
 
