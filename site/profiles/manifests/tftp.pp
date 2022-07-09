@@ -19,8 +19,11 @@
 #  Specify the username for the TFTP daemon to run as
 #  Wrapper parameter: 'puppetlabs-tftp' module class parameter
 #
-# @param directory
+# @param managed_dirs
 #  Specify the director[y|ies] for the TFTP daemon to export
+#  Specified director[y|ies] are explicitly managed by 'profiles::tftp'
+#  Limited to exactly one directory when using '--secure' option
+#  Ref: man tftpd-hpa(8)
 #  Limited to exactly one directory when using '--secure' option
 #  Ref: man tftpd-hpa(8)
 #  Wrapper parameter: 'puppetlabs-tftp' module class parameter
@@ -36,12 +39,20 @@ class profiles::tftp (
   String[1]                   $username  = 'tftp',
   Array[Stdlib::Absolutepath] $directory = [],
   Array[String[1]]            $options   = [],
+  Array[Stdlib::Absolutepath] $managed_dirs   = [],
 ) {
+  file { $managed_dirs:
+    ensure => directory,
+    mode   => '0755',
+    owner  => 'root',
+    group  => 'nogroup',
+  }
+
   class { 'tftp':
     address   => $address,
     port      => $port,
     username  => $username,
-    directory => join($directory, ' '),
+    directory => join($managed_dirs, ' '),
     options   => join($options, ' '),
     inetd     => false,
   }
