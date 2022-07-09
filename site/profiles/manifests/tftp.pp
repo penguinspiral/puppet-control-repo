@@ -24,9 +24,12 @@
 #  Specified director[y|ies] are explicitly managed by 'profiles::tftp'
 #  Limited to exactly one directory when using '--secure' option
 #  Ref: man tftpd-hpa(8)
+#
+# @param external_dirs
+#  Specify the director[y|ies] for the TFTP daemon to export
+#  Specified director[y|ies] are not managed by 'profiles::tftp'
 #  Limited to exactly one directory when using '--secure' option
 #  Ref: man tftpd-hpa(8)
-#  Wrapper parameter: 'puppetlabs-tftp' module class parameter
 #
 # @param options
 #  Specify additional TFTP daemon runtime options
@@ -40,7 +43,13 @@ class profiles::tftp (
   Array[Stdlib::Absolutepath] $directory = [],
   Array[String[1]]            $options   = [],
   Array[Stdlib::Absolutepath] $managed_dirs   = [],
+  Array[Stdlib::Absolutepath] $external_dirs  = [],
 ) {
+  $duplicate_dirs = intersection($managed_dirs, $external_dirs)
+  if !empty($duplicate_dirs) {
+    fail("Duplicate directories detected: ${duplicate_dirs.join(', ')}")
+  }
+
   file { $managed_dirs:
     ensure => directory,
     mode   => '0755',
@@ -52,7 +61,7 @@ class profiles::tftp (
     address   => $address,
     port      => $port,
     username  => $username,
-    directory => join($managed_dirs, ' '),
+    directory => join($managed_dirs + $external_dirs, ' '),
     options   => join($options, ' '),
     inetd     => false,
   }
