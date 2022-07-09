@@ -37,13 +37,12 @@
 #  Wrapper parameter: 'puppetlabs-tftp' module class parameter
 #
 class profiles::tftp (
-  Stdlib::Host                $address   = 'localhost',
-  Stdlib::Port                $port      = 69,
-  String[1]                   $username  = 'tftp',
-  Array[Stdlib::Absolutepath] $directory = [],
-  Array[String[1]]            $options   = [],
+  Stdlib::Host                $address        = 'localhost',
+  Stdlib::Port                $port           = 69,
+  String[1]                   $username       = 'tftp',
   Array[Stdlib::Absolutepath] $managed_dirs   = [],
   Array[Stdlib::Absolutepath] $external_dirs  = [],
+  Array[String[1]]            $options        = [],
 ) {
   $duplicate_dirs = intersection($managed_dirs, $external_dirs)
   if !empty($duplicate_dirs) {
