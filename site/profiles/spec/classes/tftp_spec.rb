@@ -124,30 +124,40 @@ describe 'profiles::tftp' do
     end
   end
 
-  context 'when ::directory valid' do
+  context 'when ::managed_dirs valid' do
     valid = [['/srv/tftp'], ['/srv/tftp', '/mnt/export']]
-    valid.each do |directory|
-      context "when ::directory #{directory}" do
+    valid.each do |managed_dirs|
+      context "when ::managed_dirs #{managed_dirs}" do
         let :params do
           {
-            directory: directory,
+            managed_dirs: managed_dirs,
           }
         end
 
-        it { is_expected.to contain_file('/etc/default/tftpd-hpa').with(content: %r{.*TFTP_DIRECTORY=\"#{directory.join(' ')}\".*}m) }
+        managed_dirs.each do |managed_dir|
+          it {
+            is_expected.to contain_file(managed_dir).with(
+              ensure: 'directory',
+              mode:   '0755',
+              owner:  'root',
+              group:  'nogroup',
+            )
+          }
+        end
+        it { is_expected.to contain_file('/etc/default/tftpd-hpa').with(content: %r{.*TFTP_DIRECTORY=\"#{managed_dirs.join(' ')}\".*}m) }
         it { is_expected.to compile }
       end
     end
   end
 
-  context 'when ::directory invalid' do
+  context 'when ::managed_dirs invalid' do
     invalid = ['/srv/tftp', 'home', 123, false]
     invalid_array = [['root', 'home'], [123], [true]]
-    invalid.each do |directory|
-      context "when ::directory #{directory}" do
+    invalid.each do |managed_dirs|
+      context "when ::managed_dirs #{managed_dirs}" do
         let :params do
           {
-            directory: directory,
+            managed_dirs: managed_dirs,
           }
         end
 
@@ -155,11 +165,11 @@ describe 'profiles::tftp' do
         it { is_expected.not_to compile }
       end
     end
-    invalid_array.each do |directory|
-      context "when ::directory #{directory}" do
+    invalid_array.each do |managed_dirs|
+      context "when ::managed_dirs #{managed_dirs}" do
         let :params do
           {
-            directory: directory,
+            managed_dirs: managed_dirs,
           }
         end
 
