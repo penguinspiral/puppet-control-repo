@@ -179,6 +179,106 @@ describe 'profiles::tftp' do
     end
   end
 
+  context 'when ::external_dirs valid' do
+    valid = [['/srv/tftp'], ['/srv/tftp', '/mnt/export']]
+    valid.each do |external_dirs|
+      context "when ::external_dirs #{external_dirs}" do
+        let :params do
+          {
+            external_dirs: external_dirs,
+          }
+        end
+
+        # Management optionally encapsulated in external module/class
+        it { is_expected.not_to contain_file(external_dirs).with(ensure: 'directory') }
+        it { is_expected.to contain_file('/etc/default/tftpd-hpa').with(content: %r{.*TFTP_DIRECTORY=\"#{external_dirs.join(' ')}\".*}m) }
+        it { is_expected.to compile }
+      end
+    end
+  end
+
+  context 'when ::external_dirs invalid' do
+    invalid = ['/srv/tftp', 'home', 123, false]
+    invalid_array = [['root', 'home'], [123], [true]]
+    invalid.each do |external_dirs|
+      context "when ::external_dirs #{external_dirs}" do
+        let :params do
+          {
+            external_dirs: external_dirs,
+          }
+        end
+
+        it { is_expected.to raise_error(Puppet::Error, %r{expects an Array }) }
+        it { is_expected.not_to compile }
+      end
+    end
+    invalid_array.each do |external_dirs|
+      context "when ::external_dirs #{external_dirs}" do
+        let :params do
+          {
+            external_dirs: external_dirs,
+          }
+        end
+
+        it { is_expected.to raise_error(Puppet::Error, %r{expects a Stdlib::Absolutepath}) }
+        it { is_expected.not_to compile }
+      end
+    end
+  end
+
+  context 'when ::managed_dirs valid AND ::external_dirs valid' do
+    valid_managed_dirs  = [['/srv/tftp', '/srv/ipxe']]
+    valid_external_dirs = [['/mnt/media', '/media/cdrom']]
+    valid_managed_dirs.zip(valid_external_dirs).each do |managed_dirs, external_dirs|
+      context "when ::managed_dirs #{managed_dirs} AND ::external_dirs #{external_dirs}" do
+        let :params do
+          {
+            managed_dirs:  managed_dirs,
+            external_dirs: external_dirs,
+          }
+        end
+
+        managed_dirs.each do |managed_dir|
+          it {
+            is_expected.to contain_file(managed_dir).with(
+              ensure: 'directory',
+              mode:   '0755',
+              owner:  'root',
+              group:  'nogroup',
+            )
+          }
+        end
+        external_dirs.each do |external_dir|
+          it { is_expected.not_to contain_file(external_dir).with(ensure: 'directory') }
+        end
+        it {
+          is_expected.to contain_file('/etc/default/tftpd-hpa').with(
+            content: %r{.*TFTP_DIRECTORY=\"#{managed_dirs.join(' ')} #{external_dirs.join(' ')}\".*}m,
+          )
+        }
+        it { is_expected.to compile }
+      end
+    end
+  end
+
+  context 'when ::managed_dirs valid AND ::external_dirs valid AND duplicates' do
+    valid_managed_dirs  = [['/srv/tftp', '/srv/shared' ]]
+    valid_external_dirs = [['/srv/shared', '/media/cdrom']]
+    valid_managed_dirs.zip(valid_external_dirs).each do |managed_dirs, external_dirs|
+      context "when ::managed_dirs #{managed_dirs} AND ::external_dirs #{external_dirs}" do
+        let :params do
+          {
+            managed_dirs:  managed_dirs,
+            external_dirs: external_dirs,
+          }
+        end
+
+        it { is_expected.to raise_error(Puppet::Error, %r{Duplicate directories detected:}) }
+        it { is_expected.not_to compile }
+      end
+    end
+  end
+
   context 'when ::options valid' do
     valid = [['--secure'], ['--foreground', '--verbose', '--verbosity 5']]
     valid.each do |options|
