@@ -44,7 +44,7 @@ profiles::dhcp::pools:
 profiles::disk::mounts:
   'debian_iso9660_local':
     name: '/media/cdrom'
-    device: 'LABEL=Debian\04011.3\040amd64\0401'
+    device: 'LABEL=Debian\04011.5\040amd64\0401'
     ensure: mounted
     fstype: 'iso9660'
     options: 'ro,x-mount.mkdir'
