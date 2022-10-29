@@ -13,7 +13,7 @@ profiles::apt::sources:
   'puppetlabs_local':
     comment: 'Puppetlabs 7.X Debian GNU/Linux bullseye repository'
     location: 'file:/media/cdrom/extra/mirror/puppetlabs/bullseye/'
-    repos: 'bullseye puppet7'
+    repos: 'puppet7'
 
 profiles::dhcp::service_ensure: 'running'
 profiles::dhcp::interfaces:
