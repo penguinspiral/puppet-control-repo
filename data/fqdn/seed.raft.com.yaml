@@ -6,8 +6,8 @@ profiles::apt::purge:
   'preferences.list.d': true
 
 profiles::apt::sources:
-  'debian_buster_local':
-    comment: 'Complete, static, local Debian buster (11.3) mirror'
+  'debian_bullseye_local':
+    comment: 'Complete, static, local Debian bullseye (11.5) mirror'
     location: 'file:/media/cdrom/mirror/'
     repos: 'main contrib non-free'
   'puppetlabs_local':
